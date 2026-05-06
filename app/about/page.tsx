@@ -17,14 +17,19 @@ export default async function AboutPage() {
   // Fallback data for the team members to exactly match the screenshots 
   // if WordPress returns empty.
   const fallbackTeam = [
-    { title: "Paul Humen", acfTeamMember: { role: "Chief Executive Officer", photo: { sourceUrl: "" } } },
-    { title: "Lara Ahmed", acfTeamMember: { role: "Chief Technology Officer", photo: { sourceUrl: "" } } },
-    { title: "Alexa C.", acfTeamMember: { role: "Chief Operating Officer", photo: { sourceUrl: "" } } },
-    { title: "Crish Paul", acfTeamMember: { role: "Head of Product Development", photo: { sourceUrl: "" } } },
-    { title: "Alex Travis", acfTeamMember: { role: "Lead Data Analyst", photo: { sourceUrl: "" } } },
+    { title: "Paul Humen", acfTeamMember: { role: "Chief Executive Officer", photo: { node: { sourceUrl: "" } } } },
+    { title: "Lara Ahmed", acfTeamMember: { role: "Chief Technology Officer", photo: { node: { sourceUrl: "" } } } },
+    { title: "Alexa C.", acfTeamMember: { role: "Chief Operating Officer", photo: { node: { sourceUrl: "" } } } },
+    { title: "Crish Paul", acfTeamMember: { role: "Head of Product Development", photo: { node: { sourceUrl: "" } } } },
+    { title: "Alex Travis", acfTeamMember: { role: "Lead Data Analyst", photo: { node: { sourceUrl: "" } } } },
   ];
 
-  const teamMembersToUse = fetchedTeamMembers.length > 0 ? fetchedTeamMembers : fallbackTeam;
+  // Mix dynamic members with placeholders to always have exactly 5 in the UI
+  const teamMembersToUse = [...fetchedTeamMembers];
+  for (let i = teamMembersToUse.length; i < 5; i++) {
+    // Adaugam un ID fals ca sa evitam erori de key in React
+    teamMembersToUse.push({ ...fallbackTeam[i], databaseId: `fallback-${i}` });
+  }
 
   return (
     <div className="relative overflow-hidden bg-dark-950 pt-32 pb-40">

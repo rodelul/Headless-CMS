@@ -358,8 +358,10 @@ export async function getTeamMembers() {
             role
             bio
             photo {
-              sourceUrl
-              altText
+              node {
+                sourceUrl
+                altText
+              }
             }
           }
         }
@@ -389,7 +391,32 @@ export async function getFeatures() {
   `;
 
   const data = await fetchGraphQL<{ features: { nodes: any[] } }>(query);
-  return data.features.nodes;
+  return data.features?.nodes || [];
+}
+
+// CPT: FAQ
+export async function getFaqs() {
+  const query = `
+    query GetFaqs {
+      faqs(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
+        nodes {
+          databaseId
+          title
+          acfFaq {
+            answer
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await fetchGraphQL<{ faqs: { nodes: any[] } }>(query);
+    return data.faqs?.nodes || [];
+  } catch (error) {
+    console.error("Error fetching FAQs:", error);
+    return [];
+  }
 }
 
 // ==========================================

@@ -47,10 +47,10 @@ export default function InteractiveTeam({ teamMembers }: { teamMembers: any[] })
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute inset-0"
           >
-            {teamMembers[activeIndex]?.acfTeamMember?.photo?.sourceUrl ? (
+            {teamMembers[activeIndex]?.acfTeamMember?.photo?.node?.sourceUrl ? (
               <Image
-                src={teamMembers[activeIndex].acfTeamMember.photo.sourceUrl}
-                alt={teamMembers[activeIndex].acfTeamMember.photo.altText || teamMembers[activeIndex].title}
+                src={teamMembers[activeIndex].acfTeamMember.photo.node.sourceUrl}
+                alt={teamMembers[activeIndex].acfTeamMember.photo.node.altText || teamMembers[activeIndex].title}
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />

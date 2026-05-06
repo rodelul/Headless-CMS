@@ -1,17 +1,25 @@
-import { getHomepageData, formatDate, getFeaturedImageUrl } from "@/lib/wordpress";
+import { getHomepageData, getFaqs, formatDate, getFeaturedImageUrl } from "@/lib/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import FadeUp from "@/components/animations/FadeUp";
 import Accordion from "@/components/animations/Accordion";
 
 export default async function HomePage() {
-  const data = await getHomepageData();
+  const [data, fetchedFaqs] = await Promise.all([
+    getHomepageData(),
+    getFaqs().catch(() => [])
+  ]);
 
   const acf = data.page?.acfHome || {};
   const posts = data.posts?.nodes || [];
   const servicii = data.servicii?.nodes || [];
   const testimoniale = data.testimoniale?.nodes || [];
   const features = data.features?.nodes || [];
+  const faqs = fetchedFaqs.length > 0 ? fetchedFaqs : [
+    { title: "How do we get started?", content: "Simply reach out via our contact page, and we will schedule a discovery call to discuss your project requirements." },
+    { title: "What is your typical turnaround time?", content: "Turnaround times vary based on project scope, but we typically deliver MVP versions within 4-8 weeks." },
+    { title: "Do you offer ongoing support?", content: "Yes, we provide flexible maintenance and support packages to ensure your platform runs smoothly." }
+  ];
 
   return (
     <>
@@ -376,7 +384,10 @@ export default async function HomePage() {
             </div>
           </FadeUp>
           
-          <Accordion items={[
+          <Accordion items={fetchedFaqs.length > 0 ? fetchedFaqs.map(f => ({
+            q: f.title,
+            a: f.acfFaq?.answer || ""
+          })) : [
             { q: "Why is a strong brand identity important?", a: "A robust brand identity and website serve as the face of your business, shaping how it is perceived by potential customers. They not only convey professionalism but also establish trust and credibility, vital factors in today's competitive market." },
             { q: "How long before I see results?", a: "Typically, you can start seeing initial results within a few weeks, but substantial growth and ROI usually take 3 to 6 months depending on the strategy and market competitiveness." },
             { q: "Can I cancel anytime?", a: "Yes, our services operate on a flexible month-to-month basis allowing you to cancel or pause your campaign with a 30-day notice." },
