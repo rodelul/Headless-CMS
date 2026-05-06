@@ -1,6 +1,8 @@
-import { getHomepageData, formatDate, cleanExcerpt, getFeaturedImageUrl } from "@/lib/wordpress";
+import { getHomepageData, formatDate, getFeaturedImageUrl } from "@/lib/wordpress";
 import Link from "next/link";
 import Image from "next/image";
+import FadeUp from "@/components/animations/FadeUp";
+import Accordion from "@/components/animations/Accordion";
 
 export default async function HomePage() {
   const data = await getHomepageData();
@@ -13,156 +15,290 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ========== HERO ========== */}
-      <section className="relative py-28 sm:py-36 lg:py-44 overflow-hidden">
-        {/* Background glows */}
-        <div className="glow w-[500px] h-[500px] -top-48 -right-48 opacity-40" />
-        <div className="glow w-[400px] h-[400px] bottom-0 left-[20%] opacity-20" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(110,231,183,0.05),transparent_60%)]" />
+      {/* ========== HERO (CURRENT) ========== */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-24">
+        <div className="absolute inset-0 bg-dark-950 z-0" />
+        <div className="absolute inset-0 bg-grid z-0 opacity-40" />
+        <div className="mesh-bg opacity-50 z-0 mix-blend-screen" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/20 rounded-full blur-[120px] pointer-events-none z-0" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="label-accent mb-6 animate-fade-up opacity-0" style={{ animationDelay: "100ms", animationFillMode: "forwards" }}>
-              Software development & consulting
-            </p>
-            <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-[1.05] animate-fade-up opacity-0" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
-              {acf.heroTitle || (
-                <>Construim software care <span className="text-accent">transformă</span> businessuri</>
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+          <FadeUp delay={0.1} yOffset={30}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-xs uppercase tracking-[0.2em] font-bold text-white/80">
+                Software development & consulting
+              </span>
+            </div>
+          </FadeUp>
+          
+          <FadeUp delay={0.2} yOffset={40}>
+            <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.05] text-white">
+              {acf.heroTitle ? (
+                <span dangerouslySetInnerHTML={{ __html: acf.heroTitle }} />
+              ) : (
+                <>
+                  <span className="text-gradient">Turn your big idea</span><br />
+                  <span className="text-accent drop-shadow-[0_0_25px_rgba(204,255,0,0.4)]">into a stunning website</span>
+                </>
               )}
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-muted leading-relaxed max-w-xl animate-fade-up opacity-0" style={{ animationDelay: "350ms", animationFillMode: "forwards" }}>
-              {acf.heroSubtitle || "Soluții digitale personalizate, de la idee la produs finit. Echipa ta de tech, fără overhead-ul unei echipe interne."}
+          </FadeUp>
+          
+          <FadeUp delay={0.4} yOffset={30}>
+            <p className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl mx-auto font-medium">
+              {acf.heroSubtitle || "Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services."}
             </p>
-            <div className="mt-10 flex flex-wrap gap-4 animate-fade-up opacity-0" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
-              <Link href={acf.heroCtaLink || "/contact"} className="btn-primary">
-                {acf.heroCtaText || "Începe un proiect"}
-                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+          </FadeUp>
+
+          <FadeUp delay={0.5} yOffset={20}>
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href={acf.heroCtaLink || "/contact"} className="btn-primary group">
+                {acf.heroCtaText || "Get Started Now"}
+                <svg className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
               </Link>
               <Link href="/servicii" className="btn-secondary">
-                Servicii
+                See Pricing
               </Link>
             </div>
-          </div>
+          </FadeUp>
+        </div>
+      </section>
 
-          {/* Stats bar */}
-          <div className="mt-20 pt-8 border-t border-white/[0.06] grid grid-cols-2 sm:grid-cols-4 gap-8 animate-fade-up opacity-0" style={{ animationDelay: "650ms", animationFillMode: "forwards" }}>
-            {[
-              { value: "50+", label: "Proiecte livrate" },
-              { value: "99%", label: "Clienți mulțumiți" },
-              { value: "8+", label: "Ani experiență" },
-              { value: "24/7", label: "Suport tehnic" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <span className="font-heading text-3xl sm:text-4xl font-bold text-accent tracking-tighter">{stat.value}</span>
-                <p className="text-sm text-muted mt-1">{stat.label}</p>
-              </div>
+      {/* ========== INTEGRATIONS MARQUEE (SETREX) ========== */}
+      <section className="py-32 bg-dark-950 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 flex flex-col items-start gap-8">
+          <div>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Seamless Integration</h2>
+            <p className="text-muted max-w-lg text-base leading-relaxed">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
+          </div>
+          <Link href="/integrations" className="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:scale-105 transition-transform">
+            See All Integrations
+          </Link>
+        </div>
+        
+        {/* Infinite Loop Marquee Strip */}
+        <div className="flex w-full overflow-hidden border-y border-white/[0.05] bg-dark-900/50">
+          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+            {/* Original Items */}
+            {[...Array(12)].map((_, i) => (
+               <div key={`orig-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                 <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                   {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                 </span>
+               </div>
+            ))}
+            {/* Duplicated Items for seamless infinite loop */}
+            {[...Array(12)].map((_, i) => (
+               <div key={`dup-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                 <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                   {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                 </span>
+               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ========== SERVICII ========== */}
-      {servicii.length > 0 && (
-        <section className="py-24 bg-dark-900">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <p className="label-accent mb-3">Ce facem</p>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tighter">Serviciile noastre</h2>
-              <Link href="/servicii" className="text-sm text-accent hover:text-accent-dark transition-colors">
-                Vezi toate →
-              </Link>
+      {/* ========== CUSTOM MODULAR PRODUCTS (SETREX GRID) ========== */}
+      <section className="py-32 relative bg-dark-950">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <FadeUp>
+            <div className="text-center mb-20 max-w-3xl mx-auto">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
+                Custom-designed modular products at a world-class standard
+              </h2>
+              <p className="text-muted text-lg">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {servicii.map((s: any, i: number) => (
-                <div key={s.slug} className="card p-7 group">
-                  {s.acfServicii?.icon && (
-                    <div className="w-11 h-11 bg-accent-dim rounded-xl flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
-                      <span className="text-xl">{s.acfServicii.icon}</span>
-                    </div>
-                  )}
-                  <h3 className="font-heading text-lg font-semibold mb-2 tracking-tight">{s.title}</h3>
-                  {s.acfServicii?.shortDescription && (
-                    <p className="text-sm text-muted leading-relaxed">{s.acfServicii.shortDescription}</p>
-                  )}
-                  {s.acfServicii?.price && (
-                    <p className="mt-4 text-2xl font-bold text-accent font-heading tracking-tight">{s.acfServicii.price}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ========== FEATURES ========== */}
-      {features.length > 0 && (
-        <section className="py-24 relative overflow-hidden">
-          <div className="glow w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-14">
-              <p className="label-accent mb-3">De ce noi</p>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tighter">De ce să ne alegi</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((f: any) => (
-                <div key={f.databaseId || f.title} className="text-center px-4">
+          </FadeUp>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(features.length > 0 ? features : [
+              { title: "Project Planning", acfFeature: { description: "Create, assign, and manage tasks with a drag-and-drop interface or calendar views.", icon: "👨‍💻" } },
+              { title: "Team Collaboration", acfFeature: { description: "Powerful Team Collaboration Tools to boost Streamline Communication for you.", icon: "👥" } },
+              { title: "Live Insights", acfFeature: { description: "Track performance instantly with accurate insights for smarter business decisions.", icon: "📊" } },
+              { title: "Easy to Use", acfFeature: { description: "Intuitive design lets anyone navigate, manage, and operate effortlessly.", icon: "👍" } },
+              { title: "Limitless Flexibility", acfFeature: { description: "Adaptable platform empowers teams to customize workflows and scale effortlessly.", icon: "⚙️" } },
+              { title: "Secure at Scale", acfFeature: { description: "Advanced security measures protect data while supporting growth across all operations.", icon: "🔒" } }
+            ]).map((f: any, i: number) => (
+              <FadeUp key={f.databaseId || f.title || i} delay={i * 0.1}>
+                <div className="card p-8 h-full bg-dark-900/50 hover:bg-dark-800/80 border border-white/5">
                   {f.acfFeature?.icon && (
-                    <div className="w-14 h-14 bg-accent-dim rounded-2xl flex items-center justify-center mx-auto mb-5">
-                      <span className="text-2xl">{f.acfFeature.icon}</span>
+                    <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start">
+                      <span className="text-3xl drop-shadow-[0_0_10px_rgba(204,255,0,0.3)]">{f.acfFeature.icon}</span>
                     </div>
                   )}
-                  <h3 className="font-heading text-lg font-semibold mb-3 tracking-tight">{f.title}</h3>
+                  <h3 className="font-heading text-xl font-bold mb-3 text-white">{f.title}</h3>
                   {f.acfFeature?.description && (
-                    <p className="text-sm text-muted leading-relaxed">{f.acfFeature.description}</p>
+                    <p className="text-muted leading-relaxed text-sm">{f.acfFeature.description}</p>
                   )}
                 </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== UI MOCKUPS / EASE OF USE (SETREX) ========== */}
+      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <FadeUp>
+            <div className="text-center mb-20 max-w-3xl mx-auto">
+              <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white mb-6">
+                Create with ease like never before.
+              </h2>
+              <p className="text-muted text-lg">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
+            </div>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <FadeUp delay={0.1} className="lg:col-span-2">
+              <div className="card p-10 flex flex-col md:flex-row items-center gap-10 bg-dark-800/40">
+                <div className="flex-1">
+                  <span className="bg-accent/20 text-accent text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-4 inline-block">Overview of Interface</span>
+                  <h3 className="font-heading text-4xl font-bold text-white mb-4">Designed with an intuitive experience users love.</h3>
+                  <p className="text-muted leading-relaxed">An intuitive interface means can quickly understand how to perform tasks without the need for extensive training or guidance.</p>
+                </div>
+                <div className="flex-1 w-full bg-dark-950 rounded-2xl border border-white/5 p-6 min-h-[300px] relative overflow-hidden flex flex-col gap-4 shadow-2xl">
+                   {/* Fake Mockup UI */}
+                   <div className="flex gap-2 mb-4">
+                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                   </div>
+                   <div className="w-full h-12 bg-white/5 rounded border border-white/5"></div>
+                   <div className="w-3/4 h-12 bg-white/5 rounded border border-white/5"></div>
+                   <div className="flex gap-4 mt-auto">
+                     <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
+                     <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
+                   </div>
+                </div>
+              </div>
+            </FadeUp>
+            
+            <FadeUp delay={0.2}>
+              <div className="card p-10 bg-dark-800/40 min-h-[400px] flex items-center justify-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
+                <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center text-dark-950 font-bold text-3xl shadow-[0_0_50px_rgba(204,255,0,0.5)] z-10">M</div>
+                {/* Orbital dots */}
+                <div className="absolute w-64 h-64 border border-white/10 rounded-full animate-[spin_10s_linear_infinite]">
+                  <div className="absolute top-0 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_10px_white]"></div>
+                </div>
+              </div>
+            </FadeUp>
+
+            <FadeUp delay={0.3}>
+              <div className="card p-10 bg-dark-800/40 min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden text-center">
+                <h3 className="text-8xl font-black text-white/5 absolute">24/7</h3>
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-2 bg-accent text-dark-950 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform cursor-pointer shadow-[0_0_30px_rgba(204,255,0,0.3)]">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    Support
+                  </div>
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SERVICII RESTORED ========== */}
+      {servicii.length > 0 && (
+        <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <FadeUp>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+                <div>
+                  <span className="label-accent mb-4">Ce facem</span>
+                  <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white">
+                    Serviciile Noastre
+                  </h2>
+                </div>
+                <Link href="/servicii" className="text-sm font-bold text-accent hover:text-white transition-colors flex items-center gap-2">
+                  Vezi toate serviciile <span className="text-lg">→</span>
+                </Link>
+              </div>
+            </FadeUp>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {servicii.map((s: any, i: number) => (
+                <FadeUp key={s.slug} delay={i * 0.1}>
+                  <div className="card p-8 h-full flex flex-col group cursor-pointer bg-dark-800/40">
+                    {s.acfServicii?.icon && (
+                      <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300">
+                        <span className="text-2xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(204,255,0,0.5)]">
+                          {s.acfServicii.icon}
+                        </span>
+                      </div>
+                    )}
+                    <h3 className="font-heading text-2xl font-bold mb-4 text-white">{s.title}</h3>
+                    {s.acfServicii?.shortDescription && (
+                      <p className="text-muted leading-relaxed mb-8 flex-1">{s.acfServicii.shortDescription}</p>
+                    )}
+                    {s.acfServicii?.price && (
+                      <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                        <span className="text-xs uppercase tracking-widest text-muted font-bold">De la</span>
+                        <span className="text-xl font-bold text-accent">{s.acfServicii.price}</span>
+                      </div>
+                    )}
+                  </div>
+                </FadeUp>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* ========== BLOG ========== */}
+      {/* ========== OLD BLOG SECTION RESTORED ========== */}
       {posts.length > 0 && (
-        <section className="py-24 bg-dark-900">
+        <section className="py-32 bg-dark-950">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <p className="label-accent mb-3">Blog</p>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tighter">Ultimele articole</h2>
-              <Link href="/blog" className="text-sm text-accent hover:text-accent-dark transition-colors">
-                Vezi toate →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {posts.map((post: any) => {
+            <FadeUp>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                  <span className="label-accent mb-4">Blog</span>
+                  <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white">
+                    Ultimele Articole
+                  </h2>
+                </div>
+                <Link href="/blog" className="text-sm font-bold text-accent hover:text-white transition-colors flex items-center gap-2">
+                  Vezi toate articolele <span className="text-lg">→</span>
+                </Link>
+              </div>
+            </FadeUp>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {posts.map((post: any, i: number) => {
                 const imageUrl = getFeaturedImageUrl(post);
                 return (
-                  <Link key={post.slug} href={`/blog/${post.slug}`} className="card overflow-hidden group">
-                    <div className="relative aspect-video overflow-hidden">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={post.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-dark-800 to-dark-700" />
-                      )}
-                    </div>
-                    <div className="p-5">
-                      {post.categories?.nodes?.[0] && (
-                        <span className="text-[10px] text-accent bg-accent-dim px-2.5 py-1 rounded-md font-medium">
-                          {post.categories.nodes[0].name}
-                        </span>
-                      )}
-                      <h3 className="font-heading text-base font-semibold mt-3 mb-2 tracking-tight leading-snug group-hover:text-accent transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-xs text-muted">{formatDate(post.date)}</p>
-                    </div>
-                  </Link>
+                  <FadeUp key={post.slug} delay={i * 0.1}>
+                    <Link href={`/blog/${post.slug}`} className="card overflow-hidden group block">
+                      <div className="relative aspect-video overflow-hidden bg-dark-900 border-b border-white/5">
+                        {imageUrl ? (
+                          <Image
+                            src={imageUrl}
+                            alt={post.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-dark-800 to-dark-700" />
+                        )}
+                      </div>
+                      <div className="p-6">
+                        {post.categories?.nodes?.[0] && (
+                          <span className="text-[10px] text-accent bg-accent/10 px-3 py-1 rounded border border-accent/20 font-bold uppercase tracking-wider mb-4 inline-block">
+                            {post.categories.nodes[0].name}
+                          </span>
+                        )}
+                        <h3 className="font-heading text-xl font-bold mb-3 tracking-tight text-white group-hover:text-accent transition-colors leading-snug">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-muted font-medium">{formatDate(post.date)}</p>
+                      </div>
+                    </Link>
+                  </FadeUp>
                 );
               })}
             </div>
@@ -170,64 +306,103 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ========== TESTIMONIALE ========== */}
-      {testimoniale.length > 0 && (
-        <section className="py-24">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-14">
-              <p className="label-accent mb-3">Testimoniale</p>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tighter">Ce spun clienții</h2>
+      {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
+      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <FadeUp>
+            <div className="text-center mb-20">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
+                Supported by many<br/>companies around the world
+              </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {testimoniale.map((t: any) => (
-                <div key={t.databaseId || t.title} className="card p-7">
-                  {t.acfTestimoniale?.rating && (
-                    <div className="flex gap-1 mb-4">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <svg key={i} className={`w-4 h-4 ${i < t.acfTestimoniale.rating ? "text-accent" : "text-dark-600"}`} fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                      ))}
-                    </div>
-                  )}
-                  <p className="text-sm text-zinc-300 leading-relaxed mb-6 italic">
-                    &ldquo;{t.acfTestimoniale?.testimonialText}&rdquo;
+          </FadeUp>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <FadeUp delay={0.1} className="lg:col-span-2">
+              <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
+                <div>
+                  <span className="bg-accent text-dark-950 text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-8 inline-block">CEO's Words</span>
+                  <p className="text-2xl text-white font-medium leading-relaxed mb-10">
+                    "Working with you was seamless from start to finish. The final design exceeded our expectations. Your attention to detail and ability to adaptable was outstanding throughout the entire process to the world."
                   </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-accent-dim rounded-full flex items-center justify-center text-accent text-xs font-semibold">
-                      {(t.acfTestimoniale?.clientName || t.title || "?").charAt(0)}
+                </div>
+                <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden">
+                       <img src="https://i.pravatar.cc/150?img=68" alt="Emily R" className="w-full h-full object-cover" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold">{t.acfTestimoniale?.clientName || t.title}</p>
-                      {t.acfTestimoniale?.clientRole && (
-                        <p className="text-xs text-muted">{t.acfTestimoniale.clientRole}</p>
-                      )}
+                      <h4 className="text-white font-bold text-lg">Emily R</h4>
+                      <p className="text-muted text-sm">Co Founder of Metrilo</p>
                     </div>
                   </div>
+                  <div className="text-white font-bold text-xl hidden sm:block">Setrex.</div>
                 </div>
-              ))}
+              </div>
+            </FadeUp>
+
+            <div className="flex flex-col gap-6">
+              <FadeUp delay={0.2}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">15+</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">Delivering timeless, functional spaces through innovation, precision, and client-focused design excellence.</p>
+                </div>
+              </FadeUp>
+              <FadeUp delay={0.3}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">98%</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">We pride ourselves on delivering excellence, reflected in the high satisfaction of every client.</p>
+                </div>
+              </FadeUp>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* ========== CTA FINAL ========== */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-dark-900 to-dark-950" />
-        <div className="glow w-[500px] h-[500px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20" />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tighter">
-            {acf.ctaTitle || (<>Hai să construim <span className="text-accent">împreună</span></>)}
-          </h2>
-          <p className="mt-5 text-lg text-muted max-w-lg mx-auto">
-            {acf.ctaDescription || "Discută cu noi despre proiectul tău — prima consultanță e gratuită."}
-          </p>
-          <div className="mt-10">
-            <Link href="/contact" className="btn-primary text-base px-10 py-4">
-              Contactează-ne
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      {/* ========== FAQ SECTION ========== */}
+      <section className="py-32 bg-dark-950 relative border-t border-white/[0.02]">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
+          <FadeUp>
+            <div className="text-center mb-16">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-4">
+                Questions?<br/>We're here to assist!
+              </h2>
+            </div>
+          </FadeUp>
+          
+          <Accordion items={[
+            { q: "Why is a strong brand identity important?", a: "A robust brand identity and website serve as the face of your business, shaping how it is perceived by potential customers. They not only convey professionalism but also establish trust and credibility, vital factors in today's competitive market." },
+            { q: "How long before I see results?", a: "Typically, you can start seeing initial results within a few weeks, but substantial growth and ROI usually take 3 to 6 months depending on the strategy and market competitiveness." },
+            { q: "Can I cancel anytime?", a: "Yes, our services operate on a flexible month-to-month basis allowing you to cancel or pause your campaign with a 30-day notice." },
+            { q: "Do you work with international clients?", a: "Absolutely. We have successfully partnered with businesses across the globe, providing seamless communication and delivery regardless of timezone." },
+            { q: "What industries do you specialize in?", a: "We have expertise across various sectors including technology, finance, healthcare, and e-commerce, allowing us to adapt our strategies to your specific industry needs." }
+          ]} />
+        </div>
+      </section>
+
+      {/* ========== CTA FINAL (CURRENT) ========== */}
+      <section className="py-40 relative overflow-hidden bg-dark-950">
+        <div className="absolute inset-0 mesh-bg opacity-60 rotate-180 z-0" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-accent/20 blur-[150px] pointer-events-none z-0" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <FadeUp>
+            <h2 className="font-heading text-5xl md:text-7xl font-extrabold tracking-tighter text-white mb-8">
+              Ai o idee de <span className="text-accent drop-shadow-[0_0_20px_rgba(204,255,0,0.5)]">proiect?</span>
+            </h2>
+            <p className="text-xl text-white/70 max-w-2xl mx-auto mb-12">
+              Hai să discutăm. Transformăm ideile complexe în produse digitale excepționale.
+            </p>
+            <Link href="/contact" className="btn-primary text-lg !px-12 !py-5">
+              Contactează-ne Acum
             </Link>
-          </div>
+          </FadeUp>
         </div>
       </section>
     </>

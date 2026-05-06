@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -25,43 +26,7 @@ export default function RootLayout({
     <html lang="ro" className="dark">
       <body className="min-h-screen flex flex-col font-body bg-dark-950 text-white antialiased">
         {/* ========== NAVBAR ========== */}
-        <header className="sticky top-0 z-50 backdrop-blur-xl bg-dark-950/80 border-b border-white/[0.06]">
-          <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-            <Link href="/" className="font-heading text-xl font-bold tracking-tighter">
-              nexus<span className="text-accent">.</span>
-            </Link>
-
-            <div className="hidden md:flex items-center gap-8">
-              {[
-                { label: "Acasă", href: "/" },
-                { label: "Despre noi", href: "/about" },
-                { label: "Servicii", href: "/servicii" },
-                { label: "Blog", href: "/blog" },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm text-muted hover:text-white transition-colors duration-200"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <Link
-                href="/contact"
-                className="btn-primary !py-2 !px-5 !text-xs"
-              >
-                Contact
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <button className="md:hidden p-2 text-muted hover:text-white transition-colors" aria-label="Meniu">
-              <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M3 7h18M3 12h18M3 17h18" />
-              </svg>
-            </button>
-          </nav>
-        </header>
+        <Navbar />
 
         {/* ========== CONTENT ========== */}
         <main className="flex-1">{children}</main>

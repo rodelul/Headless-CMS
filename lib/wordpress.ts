@@ -298,6 +298,31 @@ export async function getServicii() {
   return data.servicii.nodes;
 }
 
+// CPT: Proiecte (Projects)
+export async function getProjects() {
+  const query = `
+    query GetProjects {
+      projects(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
+        nodes {
+          databaseId
+          slug
+          title
+          content
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await fetchGraphQL<{ projects: { nodes: any[] } }>(query);
+  return data.projects?.nodes || [];
+}
+
 // CPT: Testimoniale
 export async function getTestimoniale() {
   const query = `

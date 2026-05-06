@@ -12,20 +12,20 @@ module.exports = {
       },
       colors: {
         dark: {
-          950: "#09090b",
-          900: "#111113",
-          800: "#18181b",
-          700: "#27272a",
-          600: "#3f3f46",
+          950: "#050505",
+          900: "#0a0a0a",
+          800: "#121212",
+          700: "#1f1f1f",
+          600: "#2a2a2a",
         },
         accent: {
-          DEFAULT: "#6ee7b7",
-          light: "#a7f3d0",
-          dark: "#34d399",
-          dim: "rgba(110,231,183,0.08)",
-          glow: "rgba(110,231,183,0.15)",
+          DEFAULT: "#ccff00",
+          light: "#dfff4d",
+          dark: "#a3cc00",
+          dim: "rgba(204,255,0,0.05)",
+          glow: "rgba(204,255,0,0.2)",
         },
-        muted: "#a1a1aa",
+        muted: "#888888",
       },
       letterSpacing: {
         tighter: "-0.04em",
@@ -36,6 +36,9 @@ module.exports = {
         "fade-up": "fadeUp 0.6s ease-out forwards",
         "slide-in": "slideIn 0.5s ease-out forwards",
         "glow-pulse": "glowPulse 4s ease-in-out infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        marquee: "marquee 30s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -53,6 +56,18 @@ module.exports = {
         glowPulse: {
           "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "0.8" },
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
     },
