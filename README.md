@@ -1,285 +1,85 @@
-# WordPress Headless CMS + Next.js (WPGraphQL)
+# Builderflow - Premium Headless CMS Portfolio
 
-Site de prezentare cu blog. WordPress = backend (CMS). Next.js = frontend.
+Un site de portofoliu modern, premium și extrem de interactiv (Setrex-inspired), construit folosind o arhitectură **Headless CMS**. Backend-ul este gestionat în **WordPress**, iar frontend-ul este complet decuplat, rulând pe **Next.js 14**.
 
-## Pluginuri WordPress necesare
+## 🚀 Tehnologii Folosite
 
-1. **WPGraphQL** — expune conținutul ca GraphQL API
-2. **ACF (gratuit)** — câmpuri custom
-3. **WPGraphQL for ACF** — conectează ACF la GraphQL
-4. **Rank Math** — SEO
-5. **Rank Math SEO addon for WPGraphQL** — SEO în GraphQL
-
-Toate gratuite.
+- **Frontend**: Next.js 14 (App Router), React, TypeScript.
+- **Styling**: Tailwind CSS (Dark Mode, Glassmorphism, Neon Lime `#ccff00` Accents).
+- **Animații**: Framer Motion (FadeUps, interacțiuni fluide, acordeoane animate).
+- **Backend**: WordPress (Headless).
+- **API**: WPGraphQL (un singur request pentru a extrage toate datele necesare unei pagini).
+- **Date Custom**: Advanced Custom Fields (ACF).
 
 ---
 
-## Setup WordPress
+## ✨ Funcționalități Premium Implementate
 
-### 1. Verifică că GraphQL funcționează
-După instalarea WPGraphQL, mergi la: `https://your-domain.com/graphql`
-Ar trebui să vezi un răspuns JSON. 
+- **Design Dark Mode Setrex-style**: Cromatică întunecată (`bg-dark-950`) cu accente puternice de verde lime.
+- **Floating Pill Header**: Un meniu de navigare modern, detașat de margini, cu efecte de blur (glassmorphism) la scroll.
+- **Infinite Marquee Integrations**: O bară de integrare cu scroll orizontal continuu, animată prin CSS pur (fără JavaScript greoi).
+- **Interactive Team Roster (Despre Noi)**: O secțiune custom în pagina `/about` unde poți selecta membrii echipei, iar pozele lor se schimbă fluid printr-o animație Framer Motion.
+- **Smooth FAQ Accordion**: Un acordeon interactiv construit de la zero, care renunță la vechile elemente statice de HTML în favoarea unor tranziții de înălțime (height transitions) fluide.
+- **Sistem Fallback**: Dacă WordPress nu răspunde sau datele lipsesc (ex: nu ai adăugat destui membri), frontend-ul umple automat spațiile goale cu placeholdere premium pentru a nu strica designul (ex: exact 5 membri pe `/about`).
 
-GraphiQL IDE (pentru testare): `WP Admin → GraphQL → GraphiQL IDE`
+---
 
-### 2. Înregistrează CPT-urile în functions.php
+## ⚙️ Setup WordPress (Backend)
 
-```php
-<?php
-// ==========================================
-// CUSTOM POST TYPES
-// ==========================================
+Pentru ca acest frontend să funcționeze corect, ai nevoie de următoarele pe instalarea ta de WordPress:
 
-// CPT: Servicii
-function register_servicii_cpt() {
-    register_post_type('servicii', [
-        'labels' => [
-            'name' => 'Servicii',
-            'singular_name' => 'Serviciu',
-        ],
-        'public' => true,
-        'show_in_rest' => true,
-        'show_in_graphql' => true,           // ← OBLIGATORIU pt WPGraphQL
-        'graphql_single_name' => 'serviciu',  // ← numele singular în schema
-        'graphql_plural_name' => 'servicii',  // ← numele plural în schema
-        'supports' => ['title', 'editor', 'thumbnail', 'custom-fields', 'page-attributes'],
-        'menu_icon' => 'dashicons-hammer',
-        'has_archive' => true,
-    ]);
-}
-add_action('init', 'register_servicii_cpt');
+### 1. Pluginuri Necesare
+- **WPGraphQL** — expune datele prin API GraphQL.
+- **Advanced Custom Fields (ACF)** — pentru câmpuri personalizate.
+- **WPGraphQL for ACF** — leagă câmpurile ACF de GraphQL.
+- **Custom Post Type UI (CPT UI)** — (opțional) pentru a înregistra ușor CPT-urile.
 
-// CPT: Testimoniale
-function register_testimoniale_cpt() {
-    register_post_type('testimoniale', [
-        'labels' => [
-            'name' => 'Testimoniale',
-            'singular_name' => 'Testimonial',
-        ],
-        'public' => true,
-        'show_in_rest' => true,
-        'show_in_graphql' => true,
-        'graphql_single_name' => 'testimonial',
-        'graphql_plural_name' => 'testimoniale',
-        'supports' => ['title', 'custom-fields'],
-        'menu_icon' => 'dashicons-format-quote',
-    ]);
-}
-add_action('init', 'register_testimoniale_cpt');
+### 2. Custom Post Types (CPT)
+Trebuie să ai următoarele CPT-uri înregistrate din interfață, setate cu suport pentru GraphQL și cu următoarele nume de plural la GraphQL:
 
-// CPT: Team Members
-function register_team_members_cpt() {
-    register_post_type('team_members', [
-        'labels' => [
-            'name' => 'Echipă',
-            'singular_name' => 'Membru echipă',
-        ],
-        'public' => true,
-        'show_in_rest' => true,
-        'show_in_graphql' => true,
-        'graphql_single_name' => 'teamMember',
-        'graphql_plural_name' => 'teamMembers',
-        'supports' => ['title', 'custom-fields', 'page-attributes'],
-        'menu_icon' => 'dashicons-groups',
-    ]);
-}
-add_action('init', 'register_team_members_cpt');
+| Nume Secțiune | Post Type Slug | GraphQL Plural Name | Suport (Supports) |
+| :--- | :--- | :--- | :--- |
+| **Servicii** | `servicii` | `servicii` | Title, Editor, Thumbnail, Page Attributes |
+| **Testimoniale**| `testimoniale` | `testimoniale` | Title, Custom Fields |
+| **Echipă** | `team_members` | `teamMembers` | Title, Custom Fields, Page Attributes, Thumbnail |
+| **Features** | `features` | `features` | Title, Custom Fields, Page Attributes |
+| **FAQ** | `faq` | `faqs` | Title, Custom Fields, Page Attributes |
 
-// CPT: Features ("De ce noi")
-function register_features_cpt() {
-    register_post_type('features', [
-        'labels' => [
-            'name' => 'Features',
-            'singular_name' => 'Feature',
-        ],
-        'public' => true,
-        'show_in_rest' => true,
-        'show_in_graphql' => true,
-        'graphql_single_name' => 'feature',
-        'graphql_plural_name' => 'features',
-        'supports' => ['title', 'custom-fields', 'page-attributes'],
-        'menu_icon' => 'dashicons-star-filled',
-    ]);
-}
-add_action('init', 'register_features_cpt');
+### 3. ACF Field Groups
+*Atenție:* La fiecare Field Group, mergi la setările "GraphQL" (în josul paginii de editare a grupului) și bifează **Show in GraphQL = Yes**, iar la **GraphQL Field Name** pune exact numele de mai jos:
 
-// ==========================================
-// CORS — permite Next.js să acceseze GraphQL
-// ==========================================
-function add_cors_headers() {
-    // În producție, schimbă cu domeniul real al frontend-ului
-    $allowed_origins = [
-        'http://localhost:3000',
-        // 'https://your-nextjs-domain.com',
-    ];
-    
-    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-    
-    if (in_array($origin, $allowed_origins)) {
-        header("Access-Control-Allow-Origin: $origin");
-        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        header('Access-Control-Allow-Credentials: true');
-    }
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        status_header(200);
-        exit();
-    }
-}
-add_action('init', 'add_cors_headers');
-```
-
-### 3. Creează ACF Field Groups
-
-**IMPORTANT:** La fiecare Field Group, în setări:
-- **Show in GraphQL** = Yes
-- **GraphQL Field Name** = numele exact de mai jos
-
-#### Field Group: "Home Page" 
-- Locație: Page → is equal to → Home
-- GraphQL Field Name: `acfHome`
-- Câmpuri:
-  - `hero_title` (Text)
-  - `hero_subtitle` (Textarea)
-  - `hero_cta_text` (Text)
-  - `hero_cta_link` (URL)
-  - `cta_title` (Text)
-  - `cta_description` (Textarea)
-
-#### Field Group: "About Page"
-- Locație: Page → is equal to → About
-- GraphQL Field Name: `acfAbout`
-- Câmpuri:
-  - `about_title` (Text)
-  - `about_description` (Textarea)
-
-#### Field Group: "Servicii Fields"
-- Locație: Post Type → is equal to → Servicii
-- GraphQL Field Name: `acfServicii`
-- Câmpuri:
-  - `short_description` (Textarea)
-  - `price` (Text)
-  - `icon` (Text — emoji)
-  - `features` (Repeater*): `feature_text` (Text)
-
-*Notă: Repeater e doar în ACF Pro. Dacă ai versiunea gratuită, creează câmpuri individuale: feature_1, feature_2, feature_3.
-
-#### Field Group: "Testimoniale Fields"
-- Locație: Post Type → is equal to → Testimoniale
-- GraphQL Field Name: `acfTestimoniale`
-- Câmpuri:
-  - `client_name` (Text)
-  - `client_role` (Text)
-  - `testimonial_text` (Textarea)
-  - `rating` (Number, min: 1, max: 5)
-
-#### Field Group: "Team Member Fields"
-- Locație: Post Type → is equal to → Echipă
-- GraphQL Field Name: `acfTeamMember`
-- Câmpuri:
+- **Team Member Fields** (`acfTeamMember`) pe CPT "Echipă":
   - `role` (Text)
   - `bio` (Textarea)
-  - `photo` (Image, return format: Image Object)
-
-#### Field Group: "Feature Fields"
-- Locație: Post Type → is equal to → Features
-- GraphQL Field Name: `acfFeature`
-- Câmpuri:
+  - `photo` (Image - return format: Image Object)
+- **FAQ Fields** (`acfFaq`) pe CPT "FAQ":
+  - `answer` (Textarea sau WYSIWYG)
+- **Feature Fields** (`acfFeature`) pe CPT "Features":
   - `description` (Textarea)
-  - `icon` (Text — emoji)
-
-### 4. Creează paginile în WordPress
-- Pagină cu slug **"home"** → completează câmpurile ACF
-- Pagină cu slug **"about"** → completează câmpurile ACF
-- Adaugă câteva Servicii, Testimoniale, Team Members, Features
-
-### 5. Testează în GraphiQL IDE
-Mergi la WP Admin → GraphQL → GraphiQL IDE și rulează:
-
-```graphql
-{
-  posts(first: 3) {
-    nodes {
-      title
-      slug
-    }
-  }
-  servicii {
-    nodes {
-      title
-      acfServicii {
-        shortDescription
-        price
-      }
-    }
-  }
-}
-```
-
-Dacă vezi date, totul funcționează.
+  - `icon` (Text / Emoji)
+- **Home Page Fields** (`acfHome`) pe o pagină specifică "Acasă".
 
 ---
 
-## Setup Next.js (local)
-
-```bash
-cd nextjs-wordpress-headless
-npm install
-cp .env.example .env.local
-# Editează .env.local cu URL-ul WordPress
-npm run dev
-```
-
-Deschide http://localhost:3000
-
----
-
-## Structura proiectului
+## 📂 Structura Proiectului
 
 ```
-nextjs-wordpress-headless/
+Headless-CMS-main/
 ├── app/
-│   ├── layout.tsx              # Layout global (navbar + footer)
-│   ├── page.tsx                # Homepage (1 query GraphQL = tot)
-│   ├── about/page.tsx          # Despre noi
-│   ├── blog/
-│   │   ├── page.tsx            # Lista articole
-│   │   └── [slug]/page.tsx     # Articol individual
-│   ├── contact/page.tsx        # Contact + formular
-│   ├── servicii/page.tsx       # Lista servicii
-│   └── api/contact/route.ts    # API formular
+│   ├── layout.tsx              # Layout global (Floating Navbar + Footer, Fonturi)
+│   ├── page.tsx                # Homepage (Hero, Integrations, Features, FAQ)
+│   ├── about/                  # Pagina Despre Noi (Interactive Team, Timeline)
+│   ├── blog/                   # Pagina Blog
+│   └── contact/                # Formular Contact
+├── components/
+│   ├── Navbar.tsx              # Componenta de meniu (Floating Pill)
+│   └── animations/             # Componente animate cu Framer Motion
+│       ├── FadeUp.tsx          # Wrapper generic pentru efect de intrare
+│       ├── Accordion.tsx       # FAQ Acordeon neted
+│       └── InteractiveTeam.tsx # Roster-ul interactiv pentru Echipă
 ├── lib/
-│   ├── wordpress.ts            # Client GraphQL (toate query-urile)
-│   └── types.ts                # Tipuri TypeScript
-├── styles/globals.css          # Tailwind + stiluri WP content
-├── next.config.js
-├── tailwind.config.js
-├── .env.example
-└── package.json
+│   └── wordpress.ts            # Client GraphQL (toate interogările către WP)
+├── styles/
+│   └── globals.css             # Tailwind + Animații globale (ex: Marquee)
+└── tailwind.config.js          # Configurații culori (Lime Green), animații
 ```
-
-## Diferența cheie: REST API vs GraphQL
-
-```
-REST API (înainte):          GraphQL (acum):
-4 request-uri separate       1 singur request
-────────────────────         ────────────────
-GET /wp-json/wp/v2/posts     query {
-GET /wp-json/wp/v2/servicii    posts { ... }
-GET /wp-json/wp/v2/pages       servicii { ... }
-GET /wp-json/wp/v2/testimoniale  testimoniale { ... }
-                                 page(id:"home") { acf... }
-Primești TOT din fiecare      }
-(și ce nu ai nevoie)         Primești EXACT ce ceri
-```
-
-## Pași următori
-- [ ] Design custom (fonturi, culori, animații)
-- [ ] Meniu mobil funcțional
-- [ ] Paginare blog cu cursor GraphQL
-- [ ] Formular contact cu email (Resend)
-- [ ] Google Maps embed
-- [ ] Preview mode (draft-uri din WP)
-- [ ] Sitemap.xml dinamic
-- [ ] Deploy pe Vercel + webhook rebuild
