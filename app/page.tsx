@@ -45,7 +45,7 @@ export default async function HomePage() {
               </span>
             </div>
           </FadeUp>
-          
+
           <FadeUp delay={0.2} yOffset={40}>
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.05] text-white">
               {acf.heroTitle ? (
@@ -58,7 +58,7 @@ export default async function HomePage() {
               )}
             </h1>
           </FadeUp>
-          
+
           <FadeUp delay={0.4} yOffset={30}>
             <p className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl mx-auto font-medium">
               {acf.heroSubtitle || "Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services."}
@@ -69,7 +69,7 @@ export default async function HomePage() {
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link href={acf.heroCtaLink || "/contact"} className="btn-primary group">
                 {acf.heroCtaText || "Get Started Now"}
-                <svg className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                <svg className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </Link>
               <Link href="/servicii" className="btn-secondary">
                 See Pricing
@@ -90,25 +90,25 @@ export default async function HomePage() {
             See All Integrations
           </Link>
         </div>
-        
+
         {/* Infinite Loop Marquee Strip */}
         <div className="flex w-full overflow-hidden border-y border-white/[0.05] bg-dark-900/50">
           <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
             {/* Original Items */}
             {[...Array(12)].map((_, i) => (
-               <div key={`orig-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
-                 <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                   {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
-                 </span>
-               </div>
+              <div key={`orig-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                </span>
+              </div>
             ))}
             {/* Duplicated Items for seamless infinite loop */}
             {[...Array(12)].map((_, i) => (
-               <div key={`dup-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
-                 <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                   {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
-                 </span>
-               </div>
+              <div key={`dup-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                </span>
+              </div>
             ))}
           </div>
         </div>
@@ -125,7 +125,7 @@ export default async function HomePage() {
               <p className="text-muted text-lg">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
             </div>
           </FadeUp>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(features.length > 0 ? features : [
               { title: "Project Planning", acfFeature: { description: "Create, assign, and manage tasks with a drag-and-drop interface or calendar views.", icon: "👨‍💻" } },
@@ -174,22 +174,22 @@ export default async function HomePage() {
                   <p className="text-muted leading-relaxed">An intuitive interface means can quickly understand how to perform tasks without the need for extensive training or guidance.</p>
                 </div>
                 <div className="flex-1 w-full bg-dark-950 rounded-2xl border border-white/5 p-6 min-h-[300px] relative overflow-hidden flex flex-col gap-4 shadow-2xl">
-                   {/* Fake Mockup UI */}
-                   <div className="flex gap-2 mb-4">
-                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                   </div>
-                   <div className="w-full h-12 bg-white/5 rounded border border-white/5"></div>
-                   <div className="w-3/4 h-12 bg-white/5 rounded border border-white/5"></div>
-                   <div className="flex gap-4 mt-auto">
-                     <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
-                     <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
-                   </div>
+                  {/* Fake Mockup UI */}
+                  <div className="flex gap-2 mb-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="w-full h-12 bg-white/5 rounded border border-white/5"></div>
+                  <div className="w-3/4 h-12 bg-white/5 rounded border border-white/5"></div>
+                  <div className="flex gap-4 mt-auto">
+                    <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
+                    <div className="w-1/2 h-20 bg-white/5 rounded border border-white/5"></div>
+                  </div>
                 </div>
               </div>
             </FadeUp>
-            
+
             <FadeUp delay={0.2}>
               <div className="card p-10 bg-dark-800/40 min-h-[400px] flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
@@ -234,7 +234,7 @@ export default async function HomePage() {
                 </Link>
               </div>
             </FadeUp>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {servicii.map((s: any, i: number) => (
                 <FadeUp key={s.slug} delay={i * 0.1}>
@@ -263,6 +263,65 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
+      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <FadeUp>
+            <div className="text-center mb-20">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
+                Supported by many<br />companies around the world
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <FadeUp delay={0.1} className="lg:col-span-2">
+              <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
+                <div>
+                  <span className="bg-accent text-dark-950 text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-8 inline-block">CEO's Words</span>
+                  <p className="text-2xl text-white font-medium leading-relaxed mb-10">
+                    "Working with you was seamless from start to finish. The final design exceeded our expectations. Your attention to detail and ability to adaptable was outstanding throughout the entire process to the world."
+                  </p>
+                </div>
+                <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden">
+                      <img src="https://i.pravatar.cc/150?img=68" alt="Emily R" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-lg">Emily R</h4>
+                      <p className="text-muted text-sm">Co Founder of Metrilo</p>
+                    </div>
+                  </div>
+                  <div className="text-white font-bold text-xl hidden sm:block">Setrex.</div>
+                </div>
+              </div>
+            </FadeUp>
+
+            <div className="flex flex-col gap-6">
+              <FadeUp delay={0.2}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">15+</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">Delivering timeless, functional spaces through innovation, precision, and client-focused design excellence.</p>
+                </div>
+              </FadeUp>
+              <FadeUp delay={0.3}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">98%</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">We pride ourselves on delivering excellence, reflected in the high satisfaction of every client.</p>
+                </div>
+              </FadeUp>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ========== OLD BLOG SECTION RESTORED ========== */}
       {posts.length > 0 && (
@@ -320,64 +379,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
-      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <FadeUp>
-            <div className="text-center mb-20">
-              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
-                Supported by many<br/>companies around the world
-              </h2>
-            </div>
-          </FadeUp>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <FadeUp delay={0.1} className="lg:col-span-2">
-              <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
-                <div>
-                  <span className="bg-accent text-dark-950 text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-8 inline-block">CEO's Words</span>
-                  <p className="text-2xl text-white font-medium leading-relaxed mb-10">
-                    "Working with you was seamless from start to finish. The final design exceeded our expectations. Your attention to detail and ability to adaptable was outstanding throughout the entire process to the world."
-                  </p>
-                </div>
-                <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden">
-                       <img src="https://i.pravatar.cc/150?img=68" alt="Emily R" className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold text-lg">Emily R</h4>
-                      <p className="text-muted text-sm">Co Founder of Metrilo</p>
-                    </div>
-                  </div>
-                  <div className="text-white font-bold text-xl hidden sm:block">Setrex.</div>
-                </div>
-              </div>
-            </FadeUp>
 
-            <div className="flex flex-col gap-6">
-              <FadeUp delay={0.2}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-5xl font-bold text-white">15+</h3>
-                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
-                  </div>
-                  <p className="text-muted text-sm leading-relaxed">Delivering timeless, functional spaces through innovation, precision, and client-focused design excellence.</p>
-                </div>
-              </FadeUp>
-              <FadeUp delay={0.3}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-5xl font-bold text-white">98%</h3>
-                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
-                  </div>
-                  <p className="text-muted text-sm leading-relaxed">We pride ourselves on delivering excellence, reflected in the high satisfaction of every client.</p>
-                </div>
-              </FadeUp>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ========== FAQ SECTION ========== */}
       <section className="py-32 bg-dark-950 relative border-t border-white/[0.02]">
@@ -385,11 +387,11 @@ export default async function HomePage() {
           <FadeUp>
             <div className="text-center mb-16">
               <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-4">
-                Questions?<br/>We're here to assist!
+                Questions?<br />We're here to assist!
               </h2>
             </div>
           </FadeUp>
-          
+
           <Accordion items={fetchedFaqs.length > 0 ? fetchedFaqs.map(f => ({
             q: f.title,
             a: f.content || f.acfFaq?.answer || ""
@@ -407,7 +409,7 @@ export default async function HomePage() {
       <section className="py-40 relative overflow-hidden bg-dark-950">
         <div className="absolute inset-0 mesh-bg opacity-60 rotate-180 z-0" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-accent/20 blur-[150px] pointer-events-none z-0" />
-        
+
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <FadeUp>
             <h2 className="font-heading text-5xl md:text-7xl font-extrabold tracking-tighter text-white mb-8">
