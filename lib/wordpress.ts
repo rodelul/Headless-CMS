@@ -321,9 +321,6 @@ export async function getServicii() {
             shortDescription
             price
             icon
-            features {
-              featureText
-            }
           }
         }
       }
@@ -438,9 +435,7 @@ export async function getFaqs() {
         nodes {
           databaseId
           title
-          acfFaq {
-            answer
-          }
+          content
         }
       }
     }

@@ -392,7 +392,7 @@ export default async function HomePage() {
           
           <Accordion items={fetchedFaqs.length > 0 ? fetchedFaqs.map(f => ({
             q: f.title,
-            a: f.acfFaq?.answer || ""
+            a: f.content || f.acfFaq?.answer || ""
           })) : [
             { q: "Why is a strong brand identity important?", a: "A robust brand identity and website serve as the face of your business, shaping how it is perceived by potential customers. They not only convey professionalism but also establish trust and credibility, vital factors in today's competitive market." },
             { q: "How long before I see results?", a: "Typically, you can start seeing initial results within a few weeks, but substantial growth and ROI usually take 3 to 6 months depending on the strategy and market competitiveness." },
