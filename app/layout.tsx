@@ -109,8 +109,8 @@ export default function RootLayout({
                 &copy; {new Date().getFullYear()} nexus. Toate drepturile rezervate.
               </p>
               <div className="flex gap-6 text-xs text-muted">
-                <a href="#" className="hover:text-accent transition-colors">Termeni</a>
-                <a href="#" className="hover:text-accent transition-colors">Confidențialitate</a>
+                <Link href="/terms-and-conditions" className="hover:text-accent transition-colors">Terms and Conditions</Link>
+                <Link href="/privacy-policy" className="hover:text-accent transition-colors">Privacy Policy</Link>
               </div>
             </div>
           </div>
