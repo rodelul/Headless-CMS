@@ -1,8 +1,14 @@
-import { getHomepageData, getFaqs, formatDate, getFeaturedImageUrl } from "@/lib/wordpress";
+import { getHomepageData, getFaqs, formatDate, getFeaturedImageUrl, getSeoMetadata } from "@/lib/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import FadeUp from "@/components/animations/FadeUp";
 import Accordion from "@/components/animations/Accordion";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getHomepageData();
+  return getSeoMetadata(data?.page?.seo);
+}
 
 export default async function HomePage() {
   const [data, fetchedFaqs] = await Promise.all([

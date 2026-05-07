@@ -1,4 +1,4 @@
-import { getPostBySlug, getAllPostSlugs, getFeaturedImageUrl, formatDate } from "@/lib/wordpress";
+import { getPostBySlug, getAllPostSlugs, getFeaturedImageUrl, formatDate, getSeoMetadata } from "@/lib/wordpress";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,16 +18,7 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Articol negăsit" };
 
-  return {
-    title: post.title,
-    description: post.excerpt?.replace(/<[^>]*>/g, "").slice(0, 160),
-    openGraph: {
-      title: post.title,
-      type: "article",
-      publishedTime: post.date,
-      modifiedTime: post.modified,
-    },
-  };
+  return getSeoMetadata(post.seo);
 }
 
 export default async function BlogPostPage({
@@ -43,7 +34,7 @@ export default async function BlogPostPage({
   const imageUrl = getFeaturedImageUrl(post);
 
   return (
-    <article className="max-w-4xl mx-auto px-6 lg:px-8 py-20">
+    <article className="max-w-4xl mx-auto px-6 lg:px-8 pt-40 pb-20">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-muted flex items-center gap-2">
         <Link href="/" className="hover:text-accent transition-colors">Acasă</Link>

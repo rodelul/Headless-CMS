@@ -1,12 +1,12 @@
-import { getPageBySlug, getTeamMembers } from "@/lib/wordpress";
+import { getPageBySlug, getTeamMembers, getSeoMetadata } from "@/lib/wordpress";
 import type { Metadata } from "next";
 import FadeUp from "@/components/animations/FadeUp";
 import InteractiveTeam from "@/components/animations/InteractiveTeam";
 
-export const metadata: Metadata = {
-  title: "Despre noi | Builderflow",
-  description: "Collaboration that creates value for everyone.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getPageBySlug("about");
+  return getSeoMetadata(pageData?.seo);
+}
 
 export default async function AboutPage() {
   const [pageData, fetchedTeamMembers] = await Promise.all([

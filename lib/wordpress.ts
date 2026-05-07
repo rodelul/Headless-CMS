@@ -51,6 +51,18 @@ export async function getHomepageData() {
   const query = `
     query GetHomepage {
       page(id: "home", idType: URI) {
+        seo {
+          title
+          description
+          canonicalUrl
+          openGraph {
+            title
+            description
+            image {
+              url
+            }
+          }
+        }
         acfHome {
           heroTitle
           heroSubtitle
@@ -115,7 +127,7 @@ export async function getHomepageData() {
   `;
 
   return fetchGraphQL<{
-    page: { acfHome: any } | null;
+    page: { acfHome: any; seo: any } | null;
     posts: { nodes: any[] };
     servicii: { nodes: any[] };
     testimoniale: { nodes: any[] };
@@ -193,6 +205,18 @@ export async function getPostBySlug(slug: string) {
         title
         content
         excerpt
+        seo {
+          title
+          description
+          canonicalUrl
+          openGraph {
+            title
+            description
+            image {
+              url
+            }
+          }
+        }
         date
         modified
         featuredImage {
@@ -255,6 +279,18 @@ export async function getPageBySlug(slug: string) {
         slug
         title
         content
+        seo {
+          title
+          description
+          canonicalUrl
+          openGraph {
+            title
+            description
+            image {
+              url
+            }
+          }
+        }
         acfAbout {
           aboutTitle
           aboutDescription
@@ -492,4 +528,23 @@ export function getFeaturedImageUrl(post: any): string | null {
 
 export function getFeaturedImageAlt(post: any): string {
   return post?.featuredImage?.node?.altText || post?.title || "";
+}
+
+import { Metadata } from 'next';
+
+export function getSeoMetadata(seoData: any): Metadata {
+  if (!seoData) return {};
+  
+  return {
+    title: seoData.title,
+    description: seoData.description,
+    alternates: {
+      canonical: seoData.canonicalUrl,
+    },
+    openGraph: {
+      title: seoData.openGraph?.title || seoData.title,
+      description: seoData.openGraph?.description || seoData.description,
+      images: seoData.openGraph?.image?.url ? [{ url: seoData.openGraph.image.url }] : [],
+    },
+  };
 }

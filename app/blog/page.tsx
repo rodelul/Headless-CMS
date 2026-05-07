@@ -1,18 +1,24 @@
-import { getPosts, formatDate, cleanExcerpt, getFeaturedImageUrl } from "@/lib/wordpress";
+import { getPosts, formatDate, cleanExcerpt, getFeaturedImageUrl, getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Articole, ghiduri și noutăți din lumea tech",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getPageBySlug("blog").catch(() => null);
+  if (pageData?.seo) {
+    return getSeoMetadata(pageData.seo);
+  }
+  return {
+    title: "Blog",
+    description: "Articole, ghiduri și noutăți din lumea tech",
+  };
+}
 
 export default async function BlogPage() {
   const { posts, hasNextPage } = await getPosts(12);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-40 pb-20">
       <div className="mb-14">
         <p className="label-accent mb-3">Articole</p>
         <h1 className="font-heading text-4xl sm:text-5xl font-extrabold tracking-tighter">Blog</h1>
