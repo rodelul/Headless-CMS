@@ -20,9 +20,9 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Acasă", path: "/" },
-    { name: "Despre noi", path: "/about" },
-    { name: "Servicii", path: "/servicii" },
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+    { name: "Services", path: "/servicii" },
     { name: "Blog", path: "/blog" },
   ];
 
@@ -30,11 +30,10 @@ export default function Navbar() {
     <>
       <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <header
-          className={`w-full max-w-5xl transition-all duration-300 rounded-full border ${
-            isScrolled 
-              ? "bg-dark-950/80 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/50 py-3 px-6" 
+          className={`w-full max-w-5xl transition-all duration-300 rounded-full border ${isScrolled
+              ? "bg-dark-950/80 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/50 py-3 px-6"
               : "bg-dark-900/40 backdrop-blur-md border-white/5 py-4 px-8"
-          } flex items-center justify-between relative`}
+            } flex items-center justify-between relative`}
         >
           {/* Left: Logo */}
           <div className="flex-shrink-0">
@@ -49,9 +48,8 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 href={link.path}
-                className={`text-sm font-bold transition-colors ${
-                  pathname === link.path ? "text-accent" : "text-white/70 hover:text-white"
-                }`}
+                className={`text-sm font-bold transition-colors ${pathname === link.path ? "text-accent" : "text-white/70 hover:text-white"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -93,9 +91,8 @@ export default function Navbar() {
                   key={item.path}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`text-base font-medium transition-colors py-2 border-b border-white/[0.06] ${
-                    pathname === item.path ? "text-accent" : "text-muted hover:text-white"
-                  }`}
+                  className={`text-base font-medium transition-colors py-2 border-b border-white/[0.06] ${pathname === item.path ? "text-accent" : "text-muted hover:text-white"
+                    }`}
                 >
                   {item.name}
                 </Link>

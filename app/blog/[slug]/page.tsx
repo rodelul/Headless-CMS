@@ -34,13 +34,13 @@ export default async function BlogPostPage({
   const imageUrl = getFeaturedImageUrl(post);
 
   return (
-    <article className="max-w-4xl mx-auto px-6 lg:px-8 pt-40 pb-20">
+    <article className="max-w-6xl mx-auto px-6 lg:px-8 pt-40 pb-20">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-muted flex items-center gap-2">
-        <Link href="/" className="hover:text-accent transition-colors">Acasă</Link>
-        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
         <Link href="/blog" className="hover:text-accent transition-colors">Blog</Link>
-        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
         <span className="text-white truncate max-w-xs">{post.title}</span>
       </nav>
 
@@ -95,7 +95,7 @@ export default async function BlogPostPage({
       {/* Back */}
       <div className="mt-16 pt-8 border-t border-white/[0.06]">
         <Link href="/blog" className="text-accent font-medium hover:text-accent-dark transition-colors flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
           Înapoi la blog
         </Link>
       </div>

@@ -12,6 +12,22 @@ const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL;
 const GRAPHQL_URL = `${WORDPRESS_URL}/graphql`;
 const REVALIDATE_TIME = 60;
 
+// Câmpurile SEO (reutilizabile ca string)
+const SEO_QUERY = `
+  seo {
+    title
+    description
+    canonicalUrl
+    openGraph {
+      title
+      description
+      image {
+        url
+      }
+    }
+  }
+`;
+
 // ==========================================
 // FUNCȚIE DE BAZĂ — TRIMITE QUERY GRAPHQL
 // ==========================================
@@ -51,18 +67,7 @@ export async function getHomepageData() {
   const query = `
     query GetHomepage {
       page(id: "home", idType: URI) {
-        seo {
-          title
-          description
-          canonicalUrl
-          openGraph {
-            title
-            description
-            image {
-              url
-            }
-          }
-        }
+        ${SEO_QUERY}
         acfHome {
           heroTitle
           heroSubtitle
@@ -99,7 +104,7 @@ export async function getHomepageData() {
           acfServicii {
             shortDescription
             price
-            icon
+            link
           }
         }
       }
@@ -119,7 +124,6 @@ export async function getHomepageData() {
           title
           acfFeature {
             description
-            icon
           }
         }
       }
@@ -205,18 +209,7 @@ export async function getPostBySlug(slug: string) {
         title
         content
         excerpt
-        seo {
-          title
-          description
-          canonicalUrl
-          openGraph {
-            title
-            description
-            image {
-              url
-            }
-          }
-        }
+        ${SEO_QUERY}
         date
         modified
         featuredImage {
@@ -279,18 +272,7 @@ export async function getPageBySlug(slug: string) {
         slug
         title
         content
-        seo {
-          title
-          description
-          canonicalUrl
-          openGraph {
-            title
-            description
-            image {
-              url
-            }
-          }
-        }
+        ${SEO_QUERY}
         acfAbout {
           aboutTitle
           aboutDescription
@@ -320,7 +302,7 @@ export async function getServicii() {
           acfServicii {
             shortDescription
             price
-            icon
+            link
           }
         }
       }
@@ -530,15 +512,18 @@ import { Metadata } from 'next';
 export function getSeoMetadata(seoData: any): Metadata {
   if (!seoData) return {};
   
+  const title = seoData.title || "";
+  const description = seoData.description || "";
+
   return {
-    title: seoData.title,
-    description: seoData.description,
+    title,
+    description,
     alternates: {
-      canonical: seoData.canonicalUrl,
+      canonical: seoData.canonicalUrl || undefined,
     },
     openGraph: {
-      title: seoData.openGraph?.title || seoData.title,
-      description: seoData.openGraph?.description || seoData.description,
+      title: seoData.openGraph?.title || title,
+      description: seoData.openGraph?.description || description,
       images: seoData.openGraph?.image?.url ? [{ url: seoData.openGraph.image.url }] : [],
     },
   };
