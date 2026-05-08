@@ -1,4 +1,5 @@
 import { getPosts, formatDate, cleanExcerpt, getFeaturedImageUrl, getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
+import { Post, Category } from "@/types/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -28,7 +29,7 @@ export default async function BlogPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {posts.map((post: any) => {
+        {posts.map((post: Post) => {
           const imageUrl = getFeaturedImageUrl(post);
           return (
             <Link
@@ -51,12 +52,12 @@ export default async function BlogPage() {
               </div>
 
               <div className="p-5">
-                {post.categories?.nodes?.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {post.categories.nodes.map((cat: any) => (
+                {post.categories?.nodes && post.categories.nodes.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {post.categories.nodes.map((cat: Category) => (
                       <span
                         key={cat.slug}
-                        className="text-[10px] text-accent bg-accent-dim px-2.5 py-1 rounded-md font-medium"
+                        className="text-[11px] text-accent bg-accent-dim px-3 py-1 rounded-md font-medium"
                       >
                         {cat.name}
                       </span>

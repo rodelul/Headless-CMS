@@ -1,5 +1,7 @@
 import { getServicii, getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
+import { Service } from "@/types/wordpress";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import FadeUp from "@/components/animations/FadeUp";
 
@@ -15,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServiciiPage() {
-  let servicii: any[] = [];
+  let servicii: Service[] = [];
   try {
     servicii = await getServicii();
   } catch {
@@ -39,10 +41,24 @@ export default async function ServiciiPage() {
 
         {servicii.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {servicii.map((s: any, index: number) => (
+            {servicii.map((s: Service, index: number) => (
               <FadeUp key={s.slug || s.databaseId} delay={index * 0.1}>
                 <div className="card p-10 group h-full flex flex-col hover:border-accent/20 transition-all duration-300">
                   <div className="flex items-start gap-6 mb-8">
+                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300 relative overflow-hidden p-3">
+                      {s.acfServicii?.link ? (
+                        <Image 
+                          src={s.acfServicii.link} 
+                          alt={s.title} 
+                          fill 
+                          className="object-contain p-3 group-hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
+                        <span className="text-2xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(204,255,0,0.5)]">
+                          ✦
+                        </span>
+                      )}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h2 className="font-heading text-2xl font-bold tracking-tight mb-3 text-white group-hover:text-accent transition-colors">{s.title}</h2>
                       {s.acfServicii?.shortDescription && (
@@ -50,6 +66,19 @@ export default async function ServiciiPage() {
                       )}
                     </div>
                   </div>
+
+                  {(s.acfServicii?.features?.length ?? 0) > 0 && (
+                    <ul className="space-y-3 mb-8 pt-8 border-t border-white/5">
+                      {s.acfServicii?.features?.map((f: any, i: number) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-muted">
+                          <svg className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          {f.featureText}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <div className="mt-auto">
                     <div className="flex items-center justify-between pt-8 border-t border-white/5">
@@ -70,6 +99,8 @@ export default async function ServiciiPage() {
                   </div>
                 </div>
               </FadeUp>
+            ))}
+          </div>
             ))}
           </div>
         ) : (

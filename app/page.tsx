@@ -1,4 +1,5 @@
 import { getHomepageData, getFaqs, formatDate, getFeaturedImageUrl, getSeoMetadata } from "@/lib/wordpress";
+import { Post, Service, Faq } from "@/types/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import FadeUp from "@/components/animations/FadeUp";
@@ -125,7 +126,6 @@ export default async function HomePage() {
               <p className="text-muted text-lg">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
             </div>
           </FadeUp>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(features.length > 0 ? features : [
               { title: "Project Planning", acfFeature: { description: "Create, assign, and manage tasks with a drag-and-drop interface or calendar views.", icon: "👨‍💻" } },
@@ -137,9 +137,14 @@ export default async function HomePage() {
             ]).map((f: any, i: number) => (
               <FadeUp key={f.databaseId || f.title || i} delay={i * 0.1}>
                 <div className="card p-8 h-full bg-dark-900/50 hover:bg-dark-800/80 border border-white/5">
-                  {f.acfFeature?.icon && (
-                    <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start">
-                      <span className="text-3xl drop-shadow-[0_0_10px_rgba(204,255,0,0.3)]">{f.acfFeature.icon}</span>
+                  {f.acfFeature?.link && (
+                    <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start relative">
+                      <Image 
+                        src={f.acfFeature.link} 
+                        alt={f.title} 
+                        fill 
+                        className="object-contain"
+                      />
                     </div>
                   )}
                   <h3 className="font-heading text-xl font-bold mb-3 text-white">{f.title}</h3>
@@ -236,10 +241,24 @@ export default async function HomePage() {
             </FadeUp>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {servicii.map((s: any, i: number) => (
+              {servicii.map((s: Service, i: number) => (
                 <FadeUp key={s.slug} delay={i * 0.1}>
-                  <div className="card p-8 h-full flex flex-col group bg-dark-800/40">
-                    <h3 className="font-heading text-2xl font-bold mb-4 text-white group-hover:text-accent transition-colors">{s.title}</h3>
+                  <div className="card p-8 h-full flex flex-col group cursor-pointer bg-dark-800/40">
+                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300 relative overflow-hidden p-3">
+                      {s.acfServicii?.link ? (
+                        <Image 
+                          src={s.acfServicii.link} 
+                          alt={s.title} 
+                          fill 
+                          className="object-contain p-3 group-hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
+                        <span className="text-2xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(204,255,0,0.5)]">
+                          ✦
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-heading text-2xl font-bold mb-4 text-white">{s.title}</h3>
                     {s.acfServicii?.shortDescription && (
                       <p className="text-muted leading-relaxed mb-8 flex-1">{s.acfServicii.shortDescription}</p>
                     )}
@@ -268,65 +287,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
-      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <FadeUp>
-            <div className="text-center mb-20">
-              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
-                Supported by many<br />companies around the world
-              </h2>
-            </div>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <FadeUp delay={0.1} className="lg:col-span-2">
-              <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
-                <div>
-                  <span className="bg-accent text-dark-950 text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-8 inline-block">CEO's Words</span>
-                  <p className="text-2xl text-white font-medium leading-relaxed mb-10">
-                    "Working with you was seamless from start to finish. The final design exceeded our expectations. Your attention to detail and ability to adaptable was outstanding throughout the entire process to the world."
-                  </p>
-                </div>
-                <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden">
-                      <img src="https://i.pravatar.cc/150?img=68" alt="Emily R" className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold text-lg">Emily R</h4>
-                      <p className="text-muted text-sm">Co Founder of Metrilo</p>
-                    </div>
-                  </div>
-                  <div className="text-white font-bold text-xl hidden sm:block">Setrex.</div>
-                </div>
-              </div>
-            </FadeUp>
-
-            <div className="flex flex-col gap-6">
-              <FadeUp delay={0.2}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-5xl font-bold text-white">15+</h3>
-                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
-                  </div>
-                  <p className="text-muted text-sm leading-relaxed">Delivering timeless, functional spaces through innovation, precision, and client-focused design excellence.</p>
-                </div>
-              </FadeUp>
-              <FadeUp delay={0.3}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-5xl font-bold text-white">98%</h3>
-                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
-                  </div>
-                  <p className="text-muted text-sm leading-relaxed">We pride ourselves on delivering excellence, reflected in the high satisfaction of every client.</p>
-                </div>
-              </FadeUp>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ========== OLD BLOG SECTION RESTORED ========== */}
       {posts.length > 0 && (
         <section className="py-32 bg-dark-950">
@@ -345,7 +305,7 @@ export default async function HomePage() {
               </div>
             </FadeUp>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {posts.map((post: any, i: number) => {
+              {posts.map((post: Post, i: number) => {
                 const imageUrl = getFeaturedImageUrl(post);
                 return (
                   <FadeUp key={post.slug} delay={i * 0.1}>
@@ -383,7 +343,64 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
+      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <FadeUp>
+            <div className="text-center mb-20">
+              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
+                Supported by many<br/>companies around the world
+              </h2>
+            </div>
+          </FadeUp>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <FadeUp delay={0.1} className="lg:col-span-2">
+              <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
+                <div>
+                  <span className="bg-accent text-dark-950 text-xs px-3 py-1 rounded font-bold uppercase tracking-wider mb-8 inline-block">CEO's Words</span>
+                  <p className="text-2xl text-white font-medium leading-relaxed mb-10">
+                    "Working with you was seamless from start to finish. The final design exceeded our expectations. Your attention to detail and ability to adaptable was outstanding throughout the entire process to the world."
+                  </p>
+                </div>
+                <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden relative">
+                       <Image src="https://i.pravatar.cc/150?img=68" alt="Emily R" fill className="object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-lg">Emily R</h4>
+                      <p className="text-muted text-sm">Co Founder of Metrilo</p>
+                    </div>
+                  </div>
+                  <div className="text-white font-bold text-xl hidden sm:block">Setrex.</div>
+                </div>
+              </div>
+            </FadeUp>
 
+            <div className="flex flex-col gap-6">
+              <FadeUp delay={0.2}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">15+</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">Delivering timeless, functional spaces through innovation, precision, and client-focused design excellence.</p>
+                </div>
+              </FadeUp>
+              <FadeUp delay={0.3}>
+                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="text-5xl font-bold text-white">98%</h3>
+                    <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
+                  </div>
+                  <p className="text-muted text-sm leading-relaxed">We pride ourselves on delivering excellence, reflected in the high satisfaction of every client.</p>
+                </div>
+              </FadeUp>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ========== FAQ SECTION ========== */}
       <section className="py-32 bg-dark-950 relative border-t border-white/[0.02]">
@@ -395,17 +412,16 @@ export default async function HomePage() {
               </h2>
             </div>
           </FadeUp>
-
-          <Accordion items={fetchedFaqs.length > 0 ? fetchedFaqs.map(f => ({
+          
+          <Accordion items={(faqs as any[]).map((f) => ({
             q: f.title,
             a: f.content || f.acfFaq?.answer || ""
-          })) : [
-            { q: "Why is a strong brand identity important?", a: "A robust brand identity and website serve as the face of your business, shaping how it is perceived by potential customers. They not only convey professionalism but also establish trust and credibility, vital factors in today's competitive market." },
-            { q: "How long before I see results?", a: "Typically, you can start seeing initial results within a few weeks, but substantial growth and ROI usually take 3 to 6 months depending on the strategy and market competitiveness." },
-            { q: "Can I cancel anytime?", a: "Yes, our services operate on a flexible month-to-month basis allowing you to cancel or pause your campaign with a 30-day notice." },
-            { q: "Do you work with international clients?", a: "Absolutely. We have successfully partnered with businesses across the globe, providing seamless communication and delivery regardless of timezone." },
-            { q: "What industries do you specialize in?", a: "We have expertise across various sectors including technology, finance, healthcare, and e-commerce, allowing us to adapt our strategies to your specific industry needs." }
-          ]} />
+          }))} />
+        </div>
+      </section>
+            q: f.title,
+            a: f.content || f.acfFaq?.answer || ""
+          }))} />
         </div>
       </section>
 

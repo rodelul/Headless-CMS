@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
+import { Syne, DM_Sans } from "next/font/google";
 import "@/styles/globals.css";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ro" className="dark">
+    <html lang="ro" className={`${syne.variable} ${dmSans.variable} dark`}>
       <body className="min-h-screen flex flex-col font-body bg-dark-950 text-white antialiased">
         {/* ========== NAVBAR ========== */}
         <Navbar />

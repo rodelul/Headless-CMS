@@ -4,6 +4,18 @@
 // prin WPGraphQL
 // ==========================================
 
+import { cache } from 'react';
+import { 
+  Post, 
+  Page, 
+  Service, 
+  TeamMember, 
+  Faq, 
+  SEOData, 
+  Category 
+} from '@/types/wordpress';
+import { Metadata } from 'next';
+
 // ==========================================
 // CONFIGURARE
 // ==========================================
@@ -63,7 +75,7 @@ async function fetchGraphQL<T>(
 // Asta e puterea GraphQL: 1 request, toate datele
 // ==========================================
 
-export async function getHomepageData() {
+export const getHomepageData = cache(async () => {
   const query = `
     query GetHomepage {
       page(id: "home", idType: URI) {
@@ -131,22 +143,22 @@ export async function getHomepageData() {
   `;
 
   return fetchGraphQL<{
-    page: { acfHome: any; seo: any } | null;
-    posts: { nodes: any[] };
-    servicii: { nodes: any[] };
+    page: { acfHome: any; seo: SEOData } | null;
+    posts: { nodes: Post[] };
+    servicii: { nodes: Service[] };
     testimoniale: { nodes: any[] };
     features: { nodes: any[] };
   }>(query);
-}
+});
 
 // ==========================================
 // POSTS (ARTICOLE BLOG)
 // ==========================================
 
-export async function getPosts(
+export const getPosts = cache(async (
   first: number = 10,
   after: string | null = null
-) {
+) => {
   const query = `
     query GetPosts($first: Int!, $after: String) {
       posts(first: $first, after: $after, where: { orderby: { field: DATE, order: DESC } }) {
@@ -190,17 +202,17 @@ export async function getPosts(
     }
   `;
 
-  const data = await fetchGraphQL<{ posts: any }>(query, { first, after });
+  const data = await fetchGraphQL<{ posts: { nodes: Post[], pageInfo: { hasNextPage: boolean, endCursor: string } } }>(query, { first, after });
 
   return {
     posts: data.posts.nodes,
     hasNextPage: data.posts.pageInfo.hasNextPage,
     endCursor: data.posts.pageInfo.endCursor,
   };
-}
+});
 
 // Obține un singur post după slug
-export async function getPostBySlug(slug: string) {
+export const getPostBySlug = cache(async (slug: string) => {
   const query = `
     query GetPost($slug: ID!) {
       post(id: $slug, idType: SLUG) {
@@ -240,9 +252,9 @@ export async function getPostBySlug(slug: string) {
     }
   `;
 
-  const data = await fetchGraphQL<{ post: any }>(query, { slug });
+  const data = await fetchGraphQL<{ post: Post | null }>(query, { slug });
   return data.post;
-}
+});
 
 // Toate slug-urile (pentru generateStaticParams)
 export async function getAllPostSlugs(): Promise<string[]> {
@@ -264,7 +276,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
 // PAGES (PAGINI)
 // ==========================================
 
-export async function getPageBySlug(slug: string) {
+export const getPageBySlug = cache(async (slug: string) => {
   const query = `
     query GetPage($slug: ID!) {
       page(id: $slug, idType: URI) {
@@ -281,16 +293,16 @@ export async function getPageBySlug(slug: string) {
     }
   `;
 
-  const data = await fetchGraphQL<{ page: any }>(query, { slug });
+  const data = await fetchGraphQL<{ page: Page | null }>(query, { slug });
   return data.page;
-}
+});
 
 // ==========================================
 // CUSTOM POST TYPES
 // ==========================================
 
 // CPT: Servicii
-export async function getServicii() {
+export const getServicii = cache(async () => {
   const query = `
     query GetServicii {
       servicii(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
@@ -309,12 +321,12 @@ export async function getServicii() {
     }
   `;
 
-  const data = await fetchGraphQL<{ servicii: { nodes: any[] } }>(query);
+  const data = await fetchGraphQL<{ servicii: { nodes: Service[] } }>(query);
   return data.servicii.nodes;
-}
+});
 
 // CPT: Proiecte (Projects)
-export async function getProjects() {
+export const getProjects = cache(async () => {
   const query = `
     query GetProjects {
       projects(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
@@ -336,10 +348,10 @@ export async function getProjects() {
 
   const data = await fetchGraphQL<{ projects: { nodes: any[] } }>(query);
   return data.projects?.nodes || [];
-}
+});
 
 // CPT: Testimoniale
-export async function getTestimoniale() {
+export const getTestimoniale = cache(async () => {
   const query = `
     query GetTestimoniale {
       testimoniale(first: 100) {
@@ -359,10 +371,10 @@ export async function getTestimoniale() {
 
   const data = await fetchGraphQL<{ testimoniale: { nodes: any[] } }>(query);
   return data.testimoniale.nodes;
-}
+});
 
 // CPT: Team Members
-export async function getTeamMembers() {
+export const getTeamMembers = cache(async () => {
   const query = `
     query GetTeamMembers {
       teamMembers(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
@@ -384,12 +396,12 @@ export async function getTeamMembers() {
     }
   `;
 
-  const data = await fetchGraphQL<{ teamMembers: { nodes: any[] } }>(query);
+  const data = await fetchGraphQL<{ teamMembers: { nodes: TeamMember[] } }>(query);
   return data.teamMembers.nodes;
-}
+});
 
 // CPT: Features ("De ce noi")
-export async function getFeatures() {
+export const getFeatures = cache(async () => {
   const query = `
     query GetFeatures {
       features(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
@@ -398,7 +410,7 @@ export async function getFeatures() {
           title
           acfFeature {
             description
-            icon
+            link
           }
         }
       }
@@ -407,10 +419,10 @@ export async function getFeatures() {
 
   const data = await fetchGraphQL<{ features: { nodes: any[] } }>(query);
   return data.features?.nodes || [];
-}
+});
 
 // CPT: FAQ
-export async function getFaqs() {
+export const getFaqs = cache(async () => {
   const query = `
     query GetFaqs {
       faqs(first: 100, where: { orderby: { field: MENU_ORDER, order: ASC } }) {
@@ -424,13 +436,13 @@ export async function getFaqs() {
   `;
 
   try {
-    const data = await fetchGraphQL<{ faqs: { nodes: any[] } }>(query);
+    const data = await fetchGraphQL<{ faqs: { nodes: Faq[] } }>(query);
     return data.faqs?.nodes || [];
   } catch (error) {
     console.error("Error fetching FAQs:", error);
     return [];
   }
-}
+});
 
 // ==========================================
 // CATEGORII
@@ -499,17 +511,15 @@ export function cleanExcerpt(excerpt: string): string {
   return excerpt.replace(/<[^>]*>/g, "").replace(/\[&hellip;\]/, "...").trim();
 }
 
-export function getFeaturedImageUrl(post: any): string | null {
+export function getFeaturedImageUrl(post: Post | null): string | null {
   return post?.featuredImage?.node?.sourceUrl || null;
 }
 
-export function getFeaturedImageAlt(post: any): string {
+export function getFeaturedImageAlt(post: Post | null): string {
   return post?.featuredImage?.node?.altText || post?.title || "";
 }
 
-import { Metadata } from 'next';
-
-export function getSeoMetadata(seoData: any): Metadata {
+export function getSeoMetadata(seoData?: SEOData): Metadata {
   if (!seoData) return {};
   
   const title = seoData.title || "";

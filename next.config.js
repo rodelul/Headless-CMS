@@ -7,7 +7,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "headless.404hosting.ro",
-        pathname: "/wp-content/uploads/**",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+        pathname: "/**",
       },
     ],
   },

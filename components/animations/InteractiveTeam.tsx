@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function InteractiveTeam({ teamMembers }: { teamMembers: any[] }) {
+import { TeamMember } from "@/types/wordpress";
+
+export default function InteractiveTeam({ teamMembers }: { teamMembers: TeamMember[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   if (!teamMembers || teamMembers.length === 0) return null;

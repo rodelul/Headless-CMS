@@ -1,4 +1,5 @@
 import { getPostBySlug, getAllPostSlugs, getFeaturedImageUrl, formatDate, getSeoMetadata } from "@/lib/wordpress";
+import { Category } from "@/types/wordpress";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -45,9 +46,9 @@ export default async function BlogPostPage({
       </nav>
 
       {/* Categories */}
-      {post.categories?.nodes?.length > 0 && (
+      {post.categories?.nodes && post.categories.nodes.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-5">
-          {post.categories.nodes.map((cat: any) => (
+          {post.categories.nodes.map((cat: Category) => (
             <span key={cat.slug} className="text-[11px] text-accent bg-accent-dim px-3 py-1 rounded-md font-medium">
               {cat.name}
             </span>
@@ -89,7 +90,7 @@ export default async function BlogPostPage({
       {/* Content */}
       <div
         className="wp-content"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: post.content || "" }}
       />
 
       {/* Back */}

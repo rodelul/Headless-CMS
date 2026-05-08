@@ -1,0 +1,9 @@
+- [x] Implementare Best Practices (Vercel/Next.js)
+    - [x] Creare fișier tipuri de date `types/wordpress.ts`
+    - [x] Actualizare `lib/wordpress.ts` cu tipuri și deduplicare (cache)
+    - [x] Optimizare Fonturi în `app/layout.tsx`
+    - [/] Optimizare Imagini și Type Safety în pagini
+        - [ ] Homepage (`app/page.tsx`)
+        - [ ] About (`app/about/page.tsx`)
+        - [ ] Servicii (`app/servicii/page.tsx`)
+        - [ ] Blog & Post (`app/blog/...`)

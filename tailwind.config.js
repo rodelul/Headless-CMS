@@ -7,8 +7,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ["Syne", "sans-serif"],
-        body: ["DM Sans", "sans-serif"],
+        heading: ["var(--font-syne)", "sans-serif"],
+        body: ["var(--font-dm-sans)", "sans-serif"],
+      },
+      letterSpacing: {
+        tighter: "-0.04em",
+        tight: "-0.02em",
       },
       colors: {
         dark: {
@@ -26,10 +30,6 @@ module.exports = {
           glow: "rgba(204,255,0,0.2)",
         },
         muted: "#888888",
-      },
-      letterSpacing: {
-        tighter: "-0.04em",
-        tight: "-0.03em",
       },
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
