@@ -137,16 +137,9 @@ export default async function HomePage() {
             ]).map((f: any, i: number) => (
               <FadeUp key={f.databaseId || f.title || i} delay={i * 0.1}>
                 <div className="card p-8 h-full bg-dark-900/50 hover:bg-dark-800/80 border border-white/5">
-                  {f.acfFeature?.link && (
-                    <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start relative">
-                      <Image 
-                        src={f.acfFeature.link} 
-                        alt={f.title} 
-                        fill 
-                        className="object-contain"
-                      />
-                    </div>
-                  )}
+                  <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start text-3xl">
+                    {f.acfFeature?.icon || "✦"}
+                  </div>
                   <h3 className="font-heading text-xl font-bold mb-3 text-white">{f.title}</h3>
                   {f.acfFeature?.description && (
                     <p className="text-muted leading-relaxed text-sm">{f.acfFeature.description}</p>
@@ -244,19 +237,10 @@ export default async function HomePage() {
               {servicii.map((s: Service, i: number) => (
                 <FadeUp key={s.slug} delay={i * 0.1}>
                   <div className="card p-8 h-full flex flex-col group cursor-pointer bg-dark-800/40">
-                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300 relative overflow-hidden p-3">
-                      {s.acfServicii?.link ? (
-                        <Image 
-                          src={s.acfServicii.link} 
-                          alt={s.title} 
-                          fill 
-                          className="object-contain p-3 group-hover:scale-110 transition-transform duration-300"
-                        />
-                      ) : (
-                        <span className="text-2xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(204,255,0,0.5)]">
-                          ✦
-                        </span>
-                      )}
+                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-300 relative overflow-hidden">
+                      <span className="text-2xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(204,255,0,0.5)] text-accent">
+                        ✦
+                      </span>
                     </div>
                     <h3 className="font-heading text-2xl font-bold mb-4 text-white">{s.title}</h3>
                     {s.acfServicii?.shortDescription && (
@@ -414,11 +398,6 @@ export default async function HomePage() {
           </FadeUp>
           
           <Accordion items={(faqs as any[]).map((f) => ({
-            q: f.title,
-            a: f.content || f.acfFaq?.answer || ""
-          }))} />
-        </div>
-      </section>
             q: f.title,
             a: f.content || f.acfFaq?.answer || ""
           }))} />
