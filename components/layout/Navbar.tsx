@@ -31,8 +31,8 @@ export default function Navbar() {
       <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <header
           className={`w-full max-w-5xl transition-all duration-300 rounded-full border ${isScrolled
-              ? "bg-dark-950/80 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/50 py-3 px-6"
-              : "bg-dark-900/40 backdrop-blur-md border-white/5 py-4 px-8"
+            ? "bg-dark-950/80 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/50 py-3 px-6"
+            : "bg-dark-900/40 backdrop-blur-md border-white/5 py-4 px-8"
             } flex items-center justify-between relative`}
         >
           {/* Left: Logo */}
@@ -62,7 +62,7 @@ export default function Navbar() {
               <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 3v18M3 12h18M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
               </svg>
-              Start creating
+              Contact
             </Link>
 
             <button

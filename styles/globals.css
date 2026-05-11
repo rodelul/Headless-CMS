@@ -3,21 +3,43 @@
 @tailwind utilities;
 
 /* ==========================================
-   DARK PREMIUM THEME
+   SETREX DESIGN SYSTEM (TOKENS)
    ========================================== */
 
 :root {
-  --bg-primary: #050505;
+  --colors--black: #010104;
+  --font-family--font: var(--font-inter), "Inter", Arial, sans-serif;
+  --colors--white: white;
+  
+  /* Typography Tokens */
+  --stx-h1-size: 62px;
+  --stx-h1-line: 70px;
+  --stx-h1-weight: 500;
+  --stx-h1-spacing: -0.06em;
+  
+  --stx-h2-size: 52px;
+  --stx-h2-line: 60px;
+  
+  --stx-p1-size: 18px;
+  --stx-p1-line: 28px;
+  
+  --stx-p2-size: 16px;
+  --stx-p2-line: 24px;
+  
+  --colors--grey-color: #d2d2d2cc;
+  --colors--yellow: #cffe25;
+  
+  --font-weight--normal: 400;
+  --font-weight--medium: 500;
+  --font-weight--bold: 700;
+  
+  /* Legacy/Compatibility Tokens */
+  --bg-primary: #010104;
   --bg-secondary: #0a0a0a;
-  --bg-tertiary: #121212;
-  --accent: #ccff00;
-  --accent-dark: #a3cc00;
-  --accent-dim: rgba(204, 255, 0, 0.05);
-  --accent-glow: rgba(204, 255, 0, 0.2);
+  --accent: #cffe25;
   --text-primary: #ffffff;
-  --text-muted: #888888;
+  --text-muted: #d2d2d2cc;
   --border: rgba(255, 255, 255, 0.05);
-  --border-light: rgba(255, 255, 255, 0.1);
 }
 
 html {
@@ -25,94 +47,67 @@ html {
 }
 
 body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-dm-sans), sans-serif;
+  background-color: var(--colors--black);
+  font-family: var(--font-family--font);
+  color: var(--colors--white);
+  font-size: var(--stx-p2-size);
+  line-height: var(--stx-p2-line);
+  font-weight: var(--font-weight--normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
 }
 
-/* Selection */
-::selection {
-  background: rgba(110, 231, 183, 0.3);
-  color: #fff;
+h1 {
+  font-size: var(--stx-h1-size);
+  line-height: var(--stx-h1-line);
+  font-weight: var(--stx-h1-weight);
+  letter-spacing: var(--stx-h1-spacing);
+  margin: 0;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+p {
+  margin: 0 0 1rem 0;
 }
 
 /* ==========================================
    LABEL / TAG STYLE
    ========================================== */
 .label-accent {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  font-weight: 600;
-  border: 1px solid rgba(204, 255, 0, 0.2);
-  background: rgba(204, 255, 0, 0.05);
-  padding: 0.375rem 1rem;
-  border-radius: 9999px;
-  display: inline-block;
-  box-shadow: 0 0 20px var(--accent-dim);
+  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] transition-all duration-300;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+.label-accent .dot {
+  @apply w-1.5 h-1.5 rounded-full bg-[#42caaa];
+  box-shadow: 0 0 8px #42caaa;
+}
+
+.label-accent span:last-child {
+  @apply text-[11px] font-bold uppercase tracking-[0.2em] text-white/90;
 }
 
 /* ==========================================
-   CARD STYLES
+   CARD STYLES (RESTORED)
    ========================================== */
 .card {
-  @apply bg-dark-900/40 backdrop-blur-2xl border border-white/[0.04] rounded-2xl transition-all duration-500 relative overflow-hidden;
+  @apply bg-white/[0.02] backdrop-blur-2xl border border-white/[0.04] rounded-2xl transition-all duration-500 relative overflow-hidden;
   box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
 }
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, -20%), rgba(0,255,204,0.1), transparent 40%);
-  z-index: 0;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-.card:hover::before {
-  opacity: 1;
-}
+
 .card:hover {
-  @apply border-white/[0.1] shadow-2xl shadow-accent/[0.05];
+  @apply border-white/[0.1] bg-white/[0.04];
   transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 /* ==========================================
-   BUTTON STYLES
+   BUTTON STYLES (RESTORED)
    ========================================== */
 .btn-primary {
   @apply relative inline-flex items-center justify-center bg-white text-black px-8 py-4 rounded-full text-sm font-bold tracking-tight transition-all duration-300 overflow-hidden;
 }
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-  transition: left 0.5s ease;
-}
-.btn-primary:hover::before {
-  left: 100%;
-}
+
 .btn-primary:hover {
   @apply shadow-[0_0_30px_rgba(255,255,255,0.3)] scale-105;
 }
@@ -120,35 +115,23 @@ body {
 .btn-secondary {
   @apply inline-flex items-center justify-center bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full text-sm font-bold transition-all duration-300;
 }
+
 .btn-secondary:hover {
   @apply bg-white/10 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.05)];
 }
 
 /* ==========================================
-   GLOW EFFECT (BACKGROUND DECORATIONS)
+   DECORATIVE ELEMENTS (RESTORED)
    ========================================== */
 .glow {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(207, 254, 37, 0.1) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
   filter: blur(80px);
 }
 
-.mesh-bg {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(at 20% 30%, rgba(0, 255, 204, 0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 20%, rgba(138, 43, 226, 0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, rgba(0, 153, 255, 0.15) 0px, transparent 50%);
-  filter: blur(100px);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* SETREX STYLE GRID */
 .bg-grid {
   background-size: 50px 50px;
   background-image: 
@@ -158,58 +141,17 @@ body {
   -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
 }
 
-.text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ==========================================
+   UTILITIES
+   ========================================== */
+.text-muted {
+  color: var(--colors--grey-color);
 }
 
-/* ==========================================
-   WORDPRESS CONTENT STYLES (BLOG POSTS)
-   ========================================== */
-.wp-content h1 {
-  @apply font-heading text-4xl font-bold mt-10 mb-4 tracking-tighter;
-}
-.wp-content h2 {
-  @apply font-heading text-3xl font-bold mt-8 mb-3 tracking-tight;
-}
-.wp-content h3 {
-  @apply font-heading text-2xl font-semibold mt-6 mb-3;
-}
-.wp-content p {
-  @apply text-lg leading-relaxed mb-6 text-zinc-300;
-}
-.wp-content ul {
-  @apply list-disc pl-6 mb-6 space-y-2 text-zinc-300;
-}
-.wp-content ol {
-  @apply list-decimal pl-6 mb-6 space-y-2 text-zinc-300;
-}
-.wp-content img {
-  @apply rounded-2xl my-8 w-full;
-}
-.wp-content a {
-  @apply text-accent underline underline-offset-4 hover:text-accent-dark transition-colors;
-}
-.wp-content blockquote {
-  @apply border-l-2 border-accent/50 pl-6 italic my-6 text-zinc-400;
-}
-.wp-content code {
-  @apply bg-dark-800 text-accent px-2 py-0.5 rounded text-sm font-mono;
-}
-.wp-content pre {
-  @apply bg-dark-800 border border-white/[0.06] rounded-xl p-6 overflow-x-auto my-6;
-}
-.wp-content pre code {
-  @apply bg-transparent p-0;
+.font-inter {
+  font-family: var(--font-inter), sans-serif;
 }
 
-/* ==========================================
-   ANIMATION DELAYS (for staggered entrance)
-   ========================================== */
 .delay-100 { animation-delay: 100ms; }
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["headless.404hosting.ro", "images.unsplash.com", "secure.gravatar.com", "cdn.prod.website-files.com"],
     // Adaugă domeniul WordPress-ului tău aici
     // pentru ca next/image să poată optimiza imaginile din WP
     remotePatterns: [

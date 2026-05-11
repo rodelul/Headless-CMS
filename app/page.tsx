@@ -3,7 +3,7 @@ import { Post, Service, Faq } from "@/types/wordpress";
 import Link from "next/link";
 import Image from "next/image";
 import FadeUp from "@/components/animations/FadeUp";
-import Accordion from "@/components/animations/Accordion";
+import FaqSection from "@/components/sections/FaqSection";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -386,43 +386,33 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ========== FAQ SECTION ========== */}
+      {/* ========== FAQ SECTION (About Us Style) ========== */}
       <section className="py-32 bg-dark-950 relative border-t border-white/[0.02]">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
-          <FadeUp>
-            <div className="text-center mb-16">
-              <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-4">
-                Questions?<br />We're here to assist!
-              </h2>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div className="lg:col-span-5">
+              <FadeUp>
+                <div className="label-accent mb-6">
+                  <div className="dot" />
+                  <span>FAQ</span>
+                </div>
+                <h2 className="font-heading text-4xl md:text-6xl font-extrabold tracking-tighter text-white mb-8 leading-[0.9]">
+                  Questions? <br /> Look here.
+                </h2>
+                <p className="text-muted text-lg max-w-sm">
+                  Everything you need to know about our process, technology, and support.
+                </p>
+              </FadeUp>
             </div>
-          </FadeUp>
-          
-          <Accordion items={(faqs as any[]).map((f) => ({
-            q: f.title,
-            a: f.content || f.acfFaq?.answer || ""
-          }))} />
+            <FaqSection faqs={(faqs as any[]).map(f => ({
+              databaseId: f.databaseId || f.title,
+              title: f.title,
+              content: f.content || f.acfFaq?.answer || ""
+            }))} />
+          </div>
         </div>
       </section>
 
-      {/* ========== CTA FINAL (CURRENT) ========== */}
-      <section className="py-40 relative overflow-hidden bg-dark-950">
-        <div className="absolute inset-0 mesh-bg opacity-60 rotate-180 z-0" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-accent/20 blur-[150px] pointer-events-none z-0" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <FadeUp>
-            <h2 className="font-heading text-5xl md:text-7xl font-extrabold tracking-tighter text-white mb-8">
-              Ai o idee de <span className="text-accent drop-shadow-[0_0_20px_rgba(204,255,0,0.5)]">proiect?</span>
-            </h2>
-            <p className="text-xl text-white/70 max-w-2xl mx-auto mb-12">
-              Hai să discutăm. Transformăm ideile complexe în produse digitale excepționale.
-            </p>
-            <Link href="/contact" className="btn-primary text-lg !px-12 !py-5">
-              Contactează-ne Acum
-            </Link>
-          </FadeUp>
-        </div>
-      </section>
     </>
   );
 }
