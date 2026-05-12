@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import FadeUp from "@/components/animations/FadeUp";
 import FaqSection from "@/components/sections/FaqSection";
+import LogoMarquee from "@/components/sections/LogoMarquee";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,11 +32,26 @@ export default async function HomePage() {
   return (
     <>
       {/* ========== HERO (CURRENT) ========== */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-24">
-        <div className="absolute inset-0 bg-dark-950 z-0" />
-        <div className="absolute inset-0 bg-grid z-0 opacity-40" />
-        <div className="mesh-bg opacity-50 z-0 mix-blend-screen" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/20 rounded-full blur-[120px] pointer-events-none z-0" />
+      <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-[45vh] pb-24">
+        {/* Background Video - High Contrast */}
+        <div className="absolute inset-0 z-0 bg-black">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover object-top opacity-100 brightness-[1.0] contrast-[1.8] scale-110 origin-top"
+          >
+            <source src="https://cdn.prod.website-files.com/68b6ff99deb8a7b82b41a88b%2F68bf3669f39313242f4e3e3b_Hero%20Video-transcode.mp4" type="video/mp4" />
+            <source src="https://cdn.prod.website-files.com/68b6ff99deb8a7b82b41a88b%2F68bf3669f39313242f4e3e3b_Hero%20Video-transcode.webm" type="video/webm" />
+          </video>
+          {/* Final Vignette - Crystal clear center, absolute black edges */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,transparent_70%,black_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black to-transparent" />
+        </div>
+
+        {/* Removed grid and other overlays that were washing out the blacks */}
+        {/* Removed the central accent glow to match Setrex style */}
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <FadeUp delay={0.1} yOffset={30}>
@@ -48,7 +64,7 @@ export default async function HomePage() {
           </FadeUp>
 
           <FadeUp delay={0.2} yOffset={40}>
-            <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.05] text-white">
+            <h1 className="text-[62px] leading-[70px] font-medium tracking-[-0.06em] text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]">
               {acf.heroTitle ? (
                 <span dangerouslySetInnerHTML={{ __html: acf.heroTitle }} />
               ) : (
@@ -61,7 +77,7 @@ export default async function HomePage() {
           </FadeUp>
 
           <FadeUp delay={0.4} yOffset={30}>
-            <p className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl mx-auto font-medium drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
               {acf.heroSubtitle || "Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services."}
             </p>
           </FadeUp>
@@ -80,43 +96,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ========== INTEGRATIONS MARQUEE (SETREX) ========== */}
-      <section className="py-32 bg-dark-950 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 flex flex-col items-start gap-8">
-          <div>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Seamless Integration</h2>
-            <p className="text-muted max-w-lg text-base leading-relaxed">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
-          </div>
-          <Link href="/integrations" className="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:scale-105 transition-transform">
-            See All Integrations
-          </Link>
+      {/* ========== PARTNERS MARQUEE (NEW SECTION 2) ========== */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+        <div className="py-24">
+          <LogoMarquee />
         </div>
-
-        {/* Infinite Loop Marquee Strip */}
-        <div className="flex w-full overflow-hidden border-y border-white/[0.05] bg-dark-900/50">
-          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
-            {/* Original Items */}
-            {[...Array(12)].map((_, i) => (
-              <div key={`orig-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
-                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
-                </span>
-              </div>
-            ))}
-            {/* Duplicated Items for seamless infinite loop */}
-            {[...Array(12)].map((_, i) => (
-              <div key={`dup-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
-                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      </div>
 
       {/* ========== CUSTOM MODULAR PRODUCTS (SETREX GRID) ========== */}
-      <section className="py-32 relative bg-dark-950">
+      <section className="py-32 relative bg-black">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <FadeUp>
             <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -136,7 +124,7 @@ export default async function HomePage() {
               { title: "Secure at Scale", acfFeature: { description: "Advanced security measures protect data while supporting growth across all operations.", icon: "🔒" } }
             ]).map((f: any, i: number) => (
               <FadeUp key={f.databaseId || f.title || i} delay={i * 0.1}>
-                <div className="card p-8 h-full bg-dark-900/50 hover:bg-dark-800/80 border border-white/5">
+                <div className="card p-8 h-full bg-black/50 hover:bg-dark-800/80 border border-white/5">
                   <div className="w-12 h-12 mb-6 text-accent flex items-center justify-start text-3xl">
                     {f.acfFeature?.icon || "✦"}
                   </div>
@@ -152,7 +140,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========== UI MOCKUPS / EASE OF USE (SETREX) ========== */}
-      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+      <section className="py-32 relative bg-black border-t border-white/[0.02]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <FadeUp>
             <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -171,7 +159,7 @@ export default async function HomePage() {
                   <h3 className="font-heading text-4xl font-bold text-white mb-4">Designed with an intuitive experience users love.</h3>
                   <p className="text-muted leading-relaxed">An intuitive interface means can quickly understand how to perform tasks without the need for extensive training or guidance.</p>
                 </div>
-                <div className="flex-1 w-full bg-dark-950 rounded-2xl border border-white/5 p-6 min-h-[300px] relative overflow-hidden flex flex-col gap-4 shadow-2xl">
+                <div className="flex-1 w-full bg-black rounded-2xl border border-white/5 p-6 min-h-[300px] relative overflow-hidden flex flex-col gap-4 shadow-2xl">
                   {/* Fake Mockup UI */}
                   <div className="flex gap-2 mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -216,8 +204,7 @@ export default async function HomePage() {
 
       {/* ========== SERVICII RESTORED ========== */}
       {servicii.length > 0 && (
-        <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+        <section className="py-32 relative bg-black border-t border-white/[0.02]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <FadeUp>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
@@ -227,7 +214,7 @@ export default async function HomePage() {
                     Serviciile Noastre
                   </h2>
                 </div>
-                <Link href="/servicii" className="text-sm font-bold text-accent hover:text-white transition-colors flex items-center gap-2">
+                <Link href="/servicii" className="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:scale-105 transition-all duration-300 flex items-center gap-2">
                   Vezi toate serviciile <span className="text-lg">→</span>
                 </Link>
               </div>
@@ -255,8 +242,8 @@ export default async function HomePage() {
                           </>
                         )}
                       </div>
-                      <Link 
-                        href={s.acfServicii?.link || "/contact"} 
+                      <Link
+                        href={s.acfServicii?.link || "/contact"}
                         className="text-accent text-sm font-bold flex items-center gap-1 group/btn"
                       >
                         Details
@@ -271,9 +258,44 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ========== INTEGRATIONS MARQUEE (RESTORED) ========== */}
+      <section className="py-32 bg-[#0d0d10] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16 flex flex-col items-start gap-8">
+          <div>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Seamless Integration</h2>
+            <p className="text-muted max-w-lg text-base leading-relaxed">Fintech is its potential to promote financial inclusion. In many parts of the world, millions of people lack access to traditional banking services.</p>
+          </div>
+          <Link href="/integrations" className="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:scale-105 transition-transform">
+            See All Integrations
+          </Link>
+        </div>
+
+        {/* Infinite Loop Marquee Strip */}
+        <div className="flex w-full overflow-hidden border-y border-white/[0.05] bg-black/50">
+          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+            {/* Original Items */}
+            {[...Array(12)].map((_, i) => (
+              <div key={`orig-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                </span>
+              </div>
+            ))}
+            {/* Duplicated Items for seamless infinite loop */}
+            {[...Array(12)].map((_, i) => (
+              <div key={`dup-${i}`} className="w-[120px] md:w-[150px] h-[100px] flex items-center justify-center border-r border-white/[0.05] hover:bg-white/[0.02] transition-colors cursor-pointer group shrink-0">
+                <span className="text-white/40 text-3xl group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                  {i % 3 === 0 ? "✹" : i % 3 === 1 ? "✺" : "✦"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ========== OLD BLOG SECTION RESTORED ========== */}
       {posts.length > 0 && (
-        <section className="py-32 bg-dark-950">
+        <section className="py-32 bg-black">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <FadeUp>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
@@ -283,7 +305,7 @@ export default async function HomePage() {
                     Ultimele Articole
                   </h2>
                 </div>
-                <Link href="/blog" className="text-sm font-bold text-accent hover:text-white transition-colors flex items-center gap-2">
+                <Link href="/blog" className="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:scale-105 transition-all duration-300 flex items-center gap-2">
                   Vezi toate articolele <span className="text-lg">→</span>
                 </Link>
               </div>
@@ -294,7 +316,7 @@ export default async function HomePage() {
                 return (
                   <FadeUp key={post.slug} delay={i * 0.1}>
                     <Link href={`/blog/${post.slug}`} className="card overflow-hidden group block">
-                      <div className="relative aspect-video overflow-hidden bg-dark-900 border-b border-white/5">
+                      <div className="relative aspect-video overflow-hidden bg-black border-b border-white/5">
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
@@ -328,16 +350,16 @@ export default async function HomePage() {
       )}
 
       {/* ========== OLD TESTIMONIALS RESTORED (Setrex Stats style) ========== */}
-      <section className="py-32 relative bg-dark-900 border-t border-white/[0.02]">
+      <section className="py-32 relative bg-black border-t border-white/[0.02]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <FadeUp>
             <div className="text-center mb-20">
               <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">
-                Supported by many<br/>companies around the world
+                Supported by many<br />companies around the world
               </h2>
             </div>
           </FadeUp>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <FadeUp delay={0.1} className="lg:col-span-2">
               <div className="card p-10 h-full bg-gradient-to-br from-dark-800 to-dark-950 flex flex-col justify-between">
@@ -350,7 +372,7 @@ export default async function HomePage() {
                 <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-auto">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-dark-700 rounded-full overflow-hidden relative">
-                       <Image src="https://i.pravatar.cc/150?img=68" alt="Emily R" fill className="object-cover" />
+                      <Image src="https://i.pravatar.cc/150?img=68" alt="Emily R" fill className="object-cover" />
                     </div>
                     <div>
                       <h4 className="text-white font-bold text-lg">Emily R</h4>
@@ -364,7 +386,7 @@ export default async function HomePage() {
 
             <div className="flex flex-col gap-6">
               <FadeUp delay={0.2}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                <div className="card p-8 bg-black border border-white/5 h-full">
                   <div className="flex justify-between items-start mb-6">
                     <h3 className="text-5xl font-bold text-white">15+</h3>
                     <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Years of experiences</span>
@@ -373,7 +395,7 @@ export default async function HomePage() {
                 </div>
               </FadeUp>
               <FadeUp delay={0.3}>
-                <div className="card p-8 bg-dark-950 border border-white/5 h-full">
+                <div className="card p-8 bg-black border border-white/5 h-full">
                   <div className="flex justify-between items-start mb-6">
                     <h3 className="text-5xl font-bold text-white">98%</h3>
                     <span className="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded uppercase tracking-wider font-bold">Client satisfaction rate</span>
@@ -387,7 +409,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========== FAQ SECTION (About Us Style) ========== */}
-      <section className="py-32 bg-dark-950 relative border-t border-white/[0.02]">
+      <section className="py-32 bg-black relative border-t border-white/[0.02]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-5">

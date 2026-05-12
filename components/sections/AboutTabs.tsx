@@ -38,9 +38,9 @@ export default function AboutTabs() {
   const [activeTab, setActiveTab] = useState(TABS[0]);
 
   return (
-    <section className="py-32">
+    <section className="py-0">
       {/* Tab Switcher */}
-      <div className="flex flex-wrap justify-center gap-3 mb-20">
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -57,7 +57,8 @@ export default function AboutTabs() {
       </div>
 
       {/* Tab Content */}
-      <div className="card p-10 md:p-20 bg-dark-900/30 border-white/5 rounded-[3rem] overflow-hidden">
+      <div className="card p-10 md:p-20 bg-dark-900/30 border-white/5 rounded-[3rem] overflow-hidden min-h-[500px] flex items-center">
+        <div className="w-full">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab.id}
@@ -90,6 +91,7 @@ export default function AboutTabs() {
             </div>
           </motion.div>
         </AnimatePresence>
+        </div>
       </div>
     </section>
   );

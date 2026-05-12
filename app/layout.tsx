@@ -46,7 +46,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ro" className={`${syne.variable} ${dmSans.variable} ${inter.variable} dark`}>
-      <body className="min-h-screen flex flex-col font-body bg-dark-950 text-white antialiased">
+      <body className="min-h-screen flex flex-col font-body bg-black text-white antialiased">
         {/* ========== NAVBAR ========== */}
         <Navbar />
 

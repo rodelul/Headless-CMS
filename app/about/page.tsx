@@ -4,6 +4,7 @@ import FadeUp from "@/components/animations/FadeUp";
 import InteractiveTeam from "@/components/animations/InteractiveTeam";
 import AboutTabs from "@/components/sections/AboutTabs";
 import FaqSection from "@/components/sections/FaqSection";
+import LogoMarquee from "@/components/sections/LogoMarquee";
 import Image from "next/image";
 import LottieBackground from "@/components/animations/LottieBackground";
 
@@ -78,15 +79,8 @@ export default async function AboutPage() {
 
 
           {/* 2. LOGOS MARQUEE */}
-          <div className="mb-32 text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-muted mb-12 font-bold">Partnering with the world's leading enterprises</p>
-            <div className="flex flex-wrap justify-center gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-500">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="text-white font-heading text-xl font-bold italic tracking-tighter">
-                  Logo<span className="text-accent">ipsum</span>
-                </div>
-              ))}
-            </div>
+          <div className="mb-32">
+            <LogoMarquee />
           </div>
 
           {/* 3. BENTO GRID AREA */}
@@ -153,9 +147,9 @@ export default async function AboutPage() {
           </div>
 
           {/* 4. INTERACTIVE TABS */}
-          <div className="mb-32 pt-32 border-t border-white/5">
-            <FadeUp className="text-center mb-8">
-              <h2 className="font-heading text-4xl md:text-6xl font-extrabold tracking-tighter text-white">Transform your vision into reality</h2>
+          <div className="py-16 border-t border-white/5">
+            <FadeUp className="text-center mb-2">
+              <h2 className="font-heading text-xl md:text-3xl font-extrabold tracking-tighter text-white">Transform your vision into reality</h2>
             </FadeUp>
             <AboutTabs />
           </div>
