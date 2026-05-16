@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* Left: Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="font-heading text-2xl font-bold tracking-tighter text-white hover:text-accent transition-colors">
-              nexus<span className="text-accent">.</span>
+              Rodi<span className="text-accent">.</span>
             </Link>
           </div>
 
