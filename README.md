@@ -1,4 +1,4 @@
-# Builderflow - Premium Headless CMS Portfolio
+# Rodi - Premium Headless CMS Portfolio
 
 Un site de portofoliu modern, premium și extrem de interactiv (Setrex-inspired), construit folosind o arhitectură **Headless CMS**. Backend-ul este gestionat în **WordPress**, iar frontend-ul este complet decuplat, rulând pe **Next.js 14**.
 
@@ -17,10 +17,11 @@ Un site de portofoliu modern, premium și extrem de interactiv (Setrex-inspired)
 
 - **Design Dark Mode Setrex-style**: Cromatică întunecată (`bg-dark-950`) cu accente puternice de verde lime.
 - **Floating Pill Header**: Un meniu de navigare modern, detașat de margini, cu efecte de blur (glassmorphism) la scroll.
-- **Infinite Marquee Integrations**: O bară de integrare cu scroll orizontal continuu, animată prin CSS pur (fără JavaScript greoi).
+- **Modular Component Architecture**: Codul sursă respectă standardele Vercel (React Composition Patterns). Pagini complexe precum `Homepage` sunt sparte în componente modulare curate, independente (ex. `HomeHero`, `HomeFeatures`, `HomeTestimonials`), garantând mentenabilitate pe termen lung.
 - **Interactive Team Roster (Despre Noi)**: O secțiune custom în pagina `/about` unde poți selecta membrii echipei, iar pozele lor se schimbă fluid printr-o animație Framer Motion.
 - **Smooth FAQ Accordion**: Un acordeon interactiv construit de la zero, care renunță la vechile elemente statice de HTML în favoarea unor tranziții de înălțime (height transitions) fluide.
-- **Sistem Fallback**: Dacă WordPress nu răspunde sau datele lipsesc (ex: nu ai adăugat destui membri), frontend-ul umple automat spațiile goale cu placeholdere premium pentru a nu strica designul (ex: exact 5 membri pe `/about`).
+- **Infinite Marquee Integrations**: O bară de integrare cu scroll orizontal continuu, animată prin CSS pur.
+- **Sistem Fallback**: Dacă WordPress nu răspunde sau datele lipsesc (ex: nu ai adăugat destui membri), frontend-ul umple automat spațiile goale cu placeholdere premium pentru a nu strica designul.
 
 ---
 
@@ -67,16 +68,25 @@ Trebuie să ai următoarele CPT-uri înregistrate din interfață, setate cu sup
 Headless-CMS-main/
 ├── app/
 │   ├── layout.tsx              # Layout global (Floating Navbar + Footer, Fonturi)
-│   ├── page.tsx                # Homepage (Hero, Integrations, Features, FAQ)
+│   ├── page.tsx                # Homepage Layout (orchestreaza componentele din /sections)
 │   ├── about/                  # Pagina Despre Noi (Interactive Team, Timeline)
 │   ├── blog/                   # Pagina Blog
 │   └── contact/                # Formular Contact
 ├── components/
-│   ├── Navbar.tsx              # Componenta de meniu (Floating Pill)
+│   ├── layout/                 # Componente globale 
+│   │   ├── Navbar.tsx          # Meniul principal (Rodi)
+│   │   └── Footer.tsx
+│   ├── sections/               # Secțiuni modulare independente
+│   │   ├── HomeHero.tsx
+│   │   ├── HomeFeatures.tsx
+│   │   ├── HomeMockups.tsx
+│   │   ├── HomeServices.tsx
+│   │   ├── HomeIntegrations.tsx
+│   │   ├── HomeBlog.tsx
+│   │   ├── HomeTestimonials.tsx
+│   │   └── FaqSection.tsx
 │   └── animations/             # Componente animate cu Framer Motion
-│       ├── FadeUp.tsx          # Wrapper generic pentru efect de intrare
-│       ├── Accordion.tsx       # FAQ Acordeon neted
-│       └── InteractiveTeam.tsx # Roster-ul interactiv pentru Echipă
+│       └── FadeUp.tsx          # Wrapper generic pentru efect de intrare
 ├── lib/
 │   └── wordpress.ts            # Client GraphQL (toate interogările către WP)
 ├── styles/
