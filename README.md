@@ -1,95 +1,95 @@
 # Rodi - Premium Headless CMS Portfolio
 
-Un site de portofoliu modern, premium și extrem de interactiv (Setrex-inspired), construit folosind o arhitectură **Headless CMS**. Backend-ul este gestionat în **WordPress**, iar frontend-ul este complet decuplat, rulând pe **Next.js 14**.
+A modern, premium, and highly interactive (Setrex-inspired) portfolio website built using a Headless CMS architecture. The backend is managed in WordPress, while the frontend is fully decoupled, running on Next.js 14.
 
-## 🚀 Tehnologii Folosite
+## Technologies Used
 
-- **Frontend**: Next.js 14 (App Router), React, TypeScript.
-- **Styling**: Tailwind CSS (Dark Mode, Glassmorphism, Neon Lime `#ccff00` Accents).
-- **Animații**: Framer Motion (FadeUps, interacțiuni fluide, acordeoane animate).
-- **Backend**: WordPress (Headless).
-- **API**: WPGraphQL (un singur request pentru a extrage toate datele necesare unei pagini).
-- **Date Custom**: Advanced Custom Fields (ACF).
-
----
-
-## ✨ Funcționalități Premium Implementate
-
-- **Design Dark Mode Setrex-style**: Cromatică întunecată (`bg-dark-950`) cu accente puternice de verde lime.
-- **Floating Pill Header**: Un meniu de navigare modern, detașat de margini, cu efecte de blur (glassmorphism) la scroll.
-- **Modular Component Architecture**: Codul sursă respectă standardele Vercel (React Composition Patterns). Pagini complexe precum `Homepage` sunt sparte în componente modulare curate, independente (ex. `HomeHero`, `HomeFeatures`, `HomeTestimonials`), garantând mentenabilitate pe termen lung.
-- **Interactive Team Roster (Despre Noi)**: O secțiune custom în pagina `/about` unde poți selecta membrii echipei, iar pozele lor se schimbă fluid printr-o animație Framer Motion.
-- **Smooth FAQ Accordion**: Un acordeon interactiv construit de la zero, care renunță la vechile elemente statice de HTML în favoarea unor tranziții de înălțime (height transitions) fluide.
-- **Infinite Marquee Integrations**: O bară de integrare cu scroll orizontal continuu, animată prin CSS pur.
-- **Sistem Fallback**: Dacă WordPress nu răspunde sau datele lipsesc (ex: nu ai adăugat destui membri), frontend-ul umple automat spațiile goale cu placeholdere premium pentru a nu strica designul.
+- Frontend: Next.js 14 (App Router), React, TypeScript.
+- Styling: Tailwind CSS (Dark Mode, Glassmorphism, Neon Lime `#ccff00` Accents).
+- Animations: Framer Motion (FadeUps, fluid interactions, animated accordions).
+- Backend: WordPress (Headless).
+- API: WPGraphQL (a single request to extract all data necessary for a page).
+- Custom Data: Advanced Custom Fields (ACF).
 
 ---
 
-## ⚙️ Setup WordPress (Backend)
+## Premium Features Implemented
 
-Pentru ca acest frontend să funcționeze corect, ai nevoie de următoarele pe instalarea ta de WordPress:
+- Dark Mode Setrex-style Design: Dark color palette (`bg-dark-950`) with strong lime green accents.
+- Floating Pill Header: A modern navigation menu, detached from the edges, with blur effects (glassmorphism) on scroll.
+- Modular Component Architecture: The source code strictly follows Vercel standards (React Composition Patterns). Complex pages like the Homepage, About, Blog, Services, and Contact are broken down into clean, independent modular components (e.g., `HomeHero`, `AboutBentoGrid`, `ServiciiGrid`, `ContactForm`), ensuring long-term maintainability.
+- Interactive Lottie Animations: High-performance, lightweight starfield animations used across multiple hero sections (Home, Blog, About) replacing heavy video backgrounds.
+- Smooth FAQ Accordion: An interactive accordion built from scratch, utilizing fluid height transitions instead of static HTML elements.
+- Infinite Marquee Integrations: A horizontal scrolling integration bar, animated purely through CSS.
+- Fallback System: If WordPress fails to respond or data is missing, the frontend automatically populates empty spaces with premium placeholders to preserve the design.
 
-### 1. Pluginuri Necesare
-- **WPGraphQL** — expune datele prin API GraphQL.
-- **Advanced Custom Fields (ACF)** — pentru câmpuri personalizate.
-- **WPGraphQL for ACF** — leagă câmpurile ACF de GraphQL.
-- **Custom Post Type UI (CPT UI)** — (opțional) pentru a înregistra ușor CPT-urile.
+---
+
+## WordPress Setup (Backend)
+
+For this frontend to function correctly, you need the following on your WordPress installation:
+
+### 1. Required Plugins
+- WPGraphQL — exposes data via the GraphQL API.
+- Advanced Custom Fields (ACF) — for custom fields.
+- WPGraphQL for ACF — links ACF fields to GraphQL.
+- Custom Post Type UI (CPT UI) — (optional) to easily register CPTs.
 
 ### 2. Custom Post Types (CPT)
-Trebuie să ai următoarele CPT-uri înregistrate din interfață, setate cu suport pentru GraphQL și cu următoarele nume de plural la GraphQL:
+You must have the following CPTs registered from the interface, configured with GraphQL support and the following plural names for GraphQL:
 
-| Nume Secțiune | Post Type Slug | GraphQL Plural Name | Suport (Supports) |
+| Section Name | Post Type Slug | GraphQL Plural Name | Supports |
 | :--- | :--- | :--- | :--- |
-| **Servicii** | `servicii` | `servicii` | Title, Editor, Thumbnail, Page Attributes |
-| **Testimoniale**| `testimoniale` | `testimoniale` | Title, Custom Fields |
-| **Echipă** | `team_members` | `teamMembers` | Title, Custom Fields, Page Attributes, Thumbnail |
-| **Features** | `features` | `features` | Title, Custom Fields, Page Attributes |
-| **FAQ** | `faq` | `faqs` | Title, Custom Fields, Page Attributes |
+| Services | `servicii` | `servicii` | Title, Editor, Thumbnail, Page Attributes |
+| Testimonials| `testimoniale` | `testimoniale` | Title, Custom Fields |
+| Team | `team_members` | `teamMembers` | Title, Custom Fields, Page Attributes, Thumbnail |
+| Features | `features` | `features` | Title, Custom Fields, Page Attributes |
+| FAQ | `faq` | `faqs` | Title, Custom Fields, Page Attributes |
 
 ### 3. ACF Field Groups
-*Atenție:* La fiecare Field Group, mergi la setările "GraphQL" (în josul paginii de editare a grupului) și bifează **Show in GraphQL = Yes**, iar la **GraphQL Field Name** pune exact numele de mai jos:
+Note: For each Field Group, go to the "GraphQL" settings (at the bottom of the group edit page) and check "Show in GraphQL = Yes", and under "GraphQL Field Name" enter exactly the names below:
 
-- **Team Member Fields** (`acfTeamMember`) pe CPT "Echipă":
+- Team Member Fields (`acfTeamMember`) on CPT "Team":
   - `role` (Text)
   - `bio` (Textarea)
   - `photo` (Image - return format: Image Object)
-- **FAQ Fields** (`acfFaq`) pe CPT "FAQ":
-  - `answer` (Textarea sau WYSIWYG)
-- **Feature Fields** (`acfFeature`) pe CPT "Features":
+- FAQ Fields (`acfFaq`) on CPT "FAQ":
+  - `answer` (Textarea or WYSIWYG)
+- Feature Fields (`acfFeature`) on CPT "Features":
   - `description` (Textarea)
-  - `icon` (Text / Emoji)
-- **Home Page Fields** (`acfHome`) pe o pagină specifică "Acasă".
+  - `icon` (Text)
+- Home Page Fields (`acfHome`) on a specific "Home" page.
 
 ---
 
-## 📂 Structura Proiectului
+## Project Structure
 
 ```
 Headless-CMS-main/
 ├── app/
-│   ├── layout.tsx              # Layout global (Floating Navbar + Footer, Fonturi)
-│   ├── page.tsx                # Homepage Layout (orchestreaza componentele din /sections)
-│   ├── about/                  # Pagina Despre Noi (Interactive Team, Timeline)
-│   ├── blog/                   # Pagina Blog
-│   └── contact/                # Formular Contact
+│   ├── layout.tsx              # Global Layout (Floating Navbar + Footer, Fonts)
+│   ├── page.tsx                # Homepage Layout (orchestrates components from /sections)
+│   ├── about/                  # About Us Page Layout
+│   ├── blog/                   # Blog Page Layout
+│   ├── contact/                # Contact Page Layout
+│   └── servicii/               # Services Page Layout
 ├── components/
-│   ├── layout/                 # Componente globale 
-│   │   ├── Navbar.tsx          # Meniul principal (Rodi)
+│   ├── layout/                 # Global components 
+│   │   ├── Navbar.tsx          # Main menu (Rodi)
 │   │   └── Footer.tsx
-│   ├── sections/               # Secțiuni modulare independente
+│   ├── sections/               # Independent modular components
 │   │   ├── HomeHero.tsx
-│   │   ├── HomeFeatures.tsx
-│   │   ├── HomeMockups.tsx
-│   │   ├── HomeServices.tsx
-│   │   ├── HomeIntegrations.tsx
-│   │   ├── HomeBlog.tsx
-│   │   ├── HomeTestimonials.tsx
-│   │   └── FaqSection.tsx
-│   └── animations/             # Componente animate cu Framer Motion
-│       └── FadeUp.tsx          # Wrapper generic pentru efect de intrare
+│   │   ├── AboutBentoGrid.tsx
+│   │   ├── BlogGrid.tsx
+│   │   ├── ServiciiGrid.tsx
+│   │   ├── ContactForm.tsx
+│   │   └── ... (many more)
+│   └── animations/             # Animated components with Framer Motion and Lottie
+│       ├── FadeUp.tsx          # Generic wrapper for entrance effect
+│       └── LottieBackground.tsx
 ├── lib/
-│   └── wordpress.ts            # Client GraphQL (toate interogările către WP)
+│   └── wordpress.ts            # GraphQL Client (all queries to WP)
 ├── styles/
-│   └── globals.css             # Tailwind + Animații globale (ex: Marquee)
-└── tailwind.config.js          # Configurații culori (Lime Green), animații
+│   └── globals.css             # Tailwind + Global animations
+└── tailwind.config.js          # Color configurations (Lime Green), animations
 ```

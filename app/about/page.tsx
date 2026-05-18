@@ -1,11 +1,11 @@
 import { getPageBySlug, getSeoMetadata, getTeamMembers, getFaqs } from "@/lib/wordpress";
 import type { Metadata } from "next";
 import FadeUp from "@/components/animations/FadeUp";
-import AboutTabs from "@/components/sections/AboutTabs";
 import LogoMarquee from "@/components/sections/LogoMarquee";
-import AboutHero from "@/components/sections/AboutHero";
-import AboutBentoGrid from "@/components/sections/AboutBentoGrid";
-import AboutFaq from "@/components/sections/AboutFaq";
+import AboutTabs from "./_components/AboutTabs";
+import AboutHero from "./_components/AboutHero";
+import AboutBentoGrid from "./_components/AboutBentoGrid";
+import AboutFaq from "./_components/AboutFaq";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug("about");

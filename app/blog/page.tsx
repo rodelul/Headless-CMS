@@ -1,7 +1,7 @@
 import { getPosts, getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
 import type { Metadata } from "next";
-import BlogHero from "@/components/sections/BlogHero";
-import BlogGrid from "@/components/sections/BlogGrid";
+import BlogHero from "./_components/BlogHero";
+import BlogGrid from "./_components/BlogGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug("blog").catch(() => null);

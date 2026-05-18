@@ -1,8 +1,8 @@
 import { getServicii, getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
 import { Service } from "@/types/wordpress";
 import type { Metadata } from "next";
-import ServiciiHero from "@/components/sections/ServiciiHero";
-import ServiciiGrid from "@/components/sections/ServiciiGrid";
+import ServiciiHero from "./_components/ServiciiHero";
+import ServiciiGrid from "./_components/ServiciiGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug("servicii").catch(() => null);

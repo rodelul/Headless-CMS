@@ -1,14 +1,14 @@
 import { getHomepageData, getFaqs, getSeoMetadata } from "@/lib/wordpress";
 import { Metadata } from "next";
 import LogoMarquee from "@/components/sections/LogoMarquee";
-import HomeHero from "@/components/sections/HomeHero";
-import HomeFeatures from "@/components/sections/HomeFeatures";
-import HomeMockups from "@/components/sections/HomeMockups";
-import HomeServices from "@/components/sections/HomeServices";
-import HomeIntegrations from "@/components/sections/HomeIntegrations";
-import HomeBlog from "@/components/sections/HomeBlog";
-import HomeTestimonials from "@/components/sections/HomeTestimonials";
-import HomeFaqWrapper from "@/components/sections/HomeFaqWrapper";
+import HomeHero from "./_components/HomeHero";
+import HomeFeatures from "./_components/HomeFeatures";
+import HomeMockups from "./_components/HomeMockups";
+import HomeServices from "./_components/HomeServices";
+import HomeIntegrations from "./_components/HomeIntegrations";
+import HomeBlog from "./_components/HomeBlog";
+import HomeTestimonials from "./_components/HomeTestimonials";
+import HomeFaqWrapper from "./_components/HomeFaqWrapper";
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getHomepageData();

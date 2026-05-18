@@ -1,8 +1,8 @@
 import { getPostBySlug, getAllPostSlugs, getFeaturedImageUrl, getSeoMetadata } from "@/lib/wordpress";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import BlogPostHeader from "@/components/sections/BlogPostHeader";
-import BlogPostContent from "@/components/sections/BlogPostContent";
+import BlogPostHeader from "./_components/BlogPostHeader";
+import BlogPostContent from "./_components/BlogPostContent";
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { getPageBySlug, getSeoMetadata } from "@/lib/wordpress";
-import ContactHero from "@/components/sections/ContactHero";
-import ContactForm from "@/components/sections/ContactForm";
-import ContactSidebar from "@/components/sections/ContactSidebar";
+import ContactHero from "./_components/ContactHero";
+import ContactForm from "./_components/ContactForm";
+import ContactSidebar from "./_components/ContactSidebar";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getPageBySlug("contact").catch(() => null);
